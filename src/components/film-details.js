@@ -16,11 +16,9 @@ export const createFilmDetailsTemplate = (film) => {
   const genresMarkup = createFilmGenresMarkup(genres);
   const ageRatingString = `${ageRating}+`;
   const comments = generateComments(commentsAmount);
-  // console.log(comments);
   const commentsList = comments.map((comment) => {
-    createCommentsTemplate(comment);
+    return createCommentsTemplate(comment);
   }).join(`\n`);
-  console.log(commentsList);
 
 
   return (
@@ -100,7 +98,7 @@ export const createFilmDetailsTemplate = (film) => {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsAmount}</span></h3>
 
             <ul class="film-details__comments-list">
               ${commentsList}

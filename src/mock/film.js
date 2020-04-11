@@ -1,5 +1,5 @@
-import {FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS} from "../const.js";
-import {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getFilmDuration} from "../utils.js";
+import {FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, DATES, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS} from "../const.js";
+import {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getFilmDuration, formatDate} from "../utils.js";
 
 const generateFilm = () => {
   return {
@@ -9,14 +9,17 @@ const generateFilm = () => {
     poster: getRandomArrayItem(POSTER_LINKS),
     ageRating: getRandomIntegerNumber(0, 18),
     director: getRandomArrayItem(DIRECTORS),
-    writers: getRandomArray(WRITERS, getRandomIntegerNumber(0, 3)),
-    actors: getRandomArray(ACTORS, getRandomIntegerNumber(1, ACTORS.length)),
-    releaseDate: `01 April 1995`,
+    writers: getRandomArray(WRITERS, getRandomIntegerNumber(0, 3)).join(`, `),
+    actors: getRandomArray(ACTORS, getRandomIntegerNumber(1, ACTORS.length)).join(`, `),
+    releaseDate: formatDate(getRandomArrayItem(DATES)),
     releaseCountry: getRandomArrayItem(RELEASE_COUNTRIES),
     duration: getFilmDuration(getRandomIntegerNumber(60, 300)),
     genres: getRandomArray(GENRES, getRandomIntegerNumber(1, GENRES.length)),
-    description: getRandomArray(FILM_DESCRIPTIONS, getRandomIntegerNumber(1, FILM_DESCRIPTIONS.length)),
+    description: getRandomArray(FILM_DESCRIPTIONS, getRandomIntegerNumber(1, FILM_DESCRIPTIONS.length)).join(` `),
     commentsAmount: getRandomIntegerNumber(0, 5),
+    watchlist: Math.random() > 0.5,
+    alreadyWatched: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5,
   };
 };
 
