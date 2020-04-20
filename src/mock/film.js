@@ -1,5 +1,5 @@
 import {FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, DATES, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS} from "../const.js";
-import {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getFilmDuration, formatDate} from "../utils.js";
+import {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getFilmDuration, formatDate} from "../utils/common.js";
 
 const generateFilm = () => {
   return {

@@ -1,5 +1,5 @@
 import {COMMENT_EMOJIS, COMMENT_TEXTS, COMMENT_AUTHORS, DATES} from "../const.js";
-import {getRandomArrayItem, formatCommentDate} from "../utils.js";
+import {getRandomArrayItem, formatCommentDate} from "../utils/common.js";
 
 const generateComment = () => {
   return {

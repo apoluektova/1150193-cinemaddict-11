@@ -1,6 +1,6 @@
+import AbstractComponent from "./abstract-component.js";
 import {createCommentsTemplate} from "./comments.js";
 import {generateComments} from "../mock/comment.js";
-import {createElement} from "../utils.js";
 
 const createFilmGenresMarkup = (genres) => {
   return genres
@@ -141,25 +141,14 @@ export const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
