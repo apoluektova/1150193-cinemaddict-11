@@ -151,4 +151,8 @@ export default class FilmCard extends AbstractComponent {
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
+
+  setCloseButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+  }
 }
