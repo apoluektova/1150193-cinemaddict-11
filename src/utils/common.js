@@ -1,8 +1,3 @@
-const RenderPosition = {
-  AFTEREND: `afterend`,
-  BEFOREEND: `beforeend`
-};
-
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -91,22 +86,4 @@ const formatCommentDate = (date) => {
   return commentDate;
 };
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTEREND:
-      container.after(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export {RenderPosition, getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getShortDescription, getFilmDuration, formatDate, formatCommentDate, createElement};
+export {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getShortDescription, getFilmDuration, formatDate, formatCommentDate};
