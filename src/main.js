@@ -1,6 +1,5 @@
 import ProfileRatingComponent from "./components/profile-rating.js";
 import NavigationComponent from "./components/navigation.js";
-import SortingComponent from "./components/sorting.js";
 import PageController from "./controllers/page-controller.js";
 import FilmsComponent from "./components/films.js";
 import ExtraFilmsController from "./controllers/extra-films.js";
@@ -23,7 +22,6 @@ const siteMainElement = document.querySelector(`.main`);
 
 render(siteHeader, new ProfileRatingComponent(), RenderPosition.BEFOREEND);
 render(siteMainElement, new NavigationComponent(filters), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortingComponent(), RenderPosition.BEFOREEND);
 
 const filmsContainer = new FilmsComponent();
 const filmsController = new PageController(filmsContainer);

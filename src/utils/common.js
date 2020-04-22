@@ -86,4 +86,8 @@ const formatCommentDate = (date) => {
   return commentDate;
 };
 
-export {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getShortDescription, getFilmDuration, formatDate, formatCommentDate};
+const getDateFromString = (date) => {
+  return new Date(date).valueOf();
+};
+
+export {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getShortDescription, getFilmDuration, formatDate, formatCommentDate, getDateFromString};
