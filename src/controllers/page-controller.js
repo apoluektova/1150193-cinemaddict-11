@@ -1,14 +1,15 @@
 import FilmsListComponent from "../components/films-list.js";
+import SortingComponent, {SortType} from "../components/sorting.js";
 import FilmCardComponent from "../components/film-card.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import FilmDetailsComponent from "../components/film-details.js";
 import NoFilmsComponent from "../components/no-films.js";
 import {render, openPopup, closePopup, remove, RenderPosition} from "../utils/render.js";
+import {getDateFromString} from "../utils/common.js";
 
 const Cards = {
   SHOWN: 5,
   BY_BUTTON: 5,
-  EXTRA: 2,
 };
 
 const renderFilmCard = (filmsListElement, film) => {
@@ -51,15 +52,63 @@ const renderFilmCard = (filmsListElement, film) => {
   render(filmsListElement, filmCard, RenderPosition.BEFOREEND);
 };
 
+const renderFilmCards = (filmsListElement, films) => {
+  films.forEach((film) => {
+    renderFilmCard(filmsListElement, film);
+  });
+};
+
+const getSortedFilmCards = (films, sortType, from, to) => {
+  let sortedFilms = [];
+  const shownFilms = films.slice();
+
+  switch (sortType) {
+    case SortType.DATE:
+      sortedFilms = shownFilms.sort((a, b) => getDateFromString(b.releaseDate) - getDateFromString(a.releaseDate));
+      break;
+    case SortType.RATING:
+      sortedFilms = shownFilms.sort((a, b) => b.rating - a.rating);
+      break;
+    case SortType.DEFAULT:
+      sortedFilms = shownFilms;
+      break;
+  }
+
+  return sortedFilms.slice(from, to);
+};
+
 export default class PageController {
   constructor(container) {
     this._container = container;
     this._filmsListComponent = new FilmsListComponent();
+    this._sortComponent = new SortingComponent();
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
     this._noFilmsComponent = new NoFilmsComponent();
+    this._shownFilmsCount = Cards.SHOWN;
+    this._filmsListElement = this._filmsListComponent.getElement().querySelector(`.films-list__container`);
+  }
+
+  _showMore(films) {
+    const prevFilmsCount = this._shownFilmsCount;
+    this._shownFilmsCount = this._shownFilmsCount + Cards.BY_BUTTON;
+
+    const sortedFilmCards = getSortedFilmCards(films, this._sortComponent.getSortType(), prevFilmsCount, this._shownFilmsCount);
+    renderFilmCards(this._filmsListElement, sortedFilmCards);
+
+    if (this._shownFilmsCount >= films.length) {
+      remove(this._showMoreButtonComponent);
+    }
   }
 
   render(films) {
+    const renderShowMoreButton = () => {
+      if (this._shownFilmsCount >= films.length) {
+        return;
+      }
+
+      render(this._filmsListElement, this._showMoreButtonComponent, RenderPosition.AFTEREND);
+    };
+
     const container = this._container.getElement();
 
     if (films.length === 0) {
@@ -67,33 +116,25 @@ export default class PageController {
       return;
     }
 
+    render(container, this._sortComponent, RenderPosition.BEFOREEND);
     render(container, this._filmsListComponent, RenderPosition.BEFOREEND);
 
-    const filmsListElement = container.querySelector(`.films-list__container`);
-
-    let shownFilmCardsAmount = Cards.SHOWN;
-    films.slice(0, shownFilmCardsAmount)
-      .forEach((filmCard) => {
-        renderFilmCard(filmsListElement, filmCard);
-      });
-
-    render(container, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
-
-    const onShowMoreButtonClick = () => {
-      const prevFilmsCount = shownFilmCardsAmount;
-      shownFilmCardsAmount = shownFilmCardsAmount + Cards.BY_BUTTON;
-
-      films.slice(prevFilmsCount, shownFilmCardsAmount)
-      .forEach((filmCard) => renderFilmCard(filmsListElement, filmCard));
-
-      if (shownFilmCardsAmount >= films.length) {
-        remove(this._showMoreButtonComponent);
-        this._showMoreButtonComponent.removeElement();
-      }
-    };
+    renderFilmCards(this._filmsListElement, films.slice(0, this._shownFilmsCount));
+    renderShowMoreButton();
 
     this._showMoreButtonComponent.setClickHandler(() => {
-      onShowMoreButtonClick();
+      this._showMore(films);
+    });
+
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      this._shownFilmsCount = Cards.BY_BUTTON;
+
+      const sortedFilmCards = getSortedFilmCards(films, sortType, 0, this._shownFilmsCount);
+
+      this._filmsListElement.innerHTML = ``;
+
+      renderFilmCards(this._filmsListElement, sortedFilmCards);
+      renderShowMoreButton();
     });
   }
 }
