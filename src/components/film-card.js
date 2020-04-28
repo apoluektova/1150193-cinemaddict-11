@@ -2,7 +2,7 @@ import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 import AbstractComponent from "./abstract-component.js";
 import {getShortDescription} from "../utils/common.js";
 
-export const createFilmCardTemplate = (film) => {
+const createFilmCardTemplate = (film) => {
   const {title, rating, releaseDate, duration, genres, poster, description, commentsAmount, watchlist, alreadyWatched, isFavorite} = film;
   const genre = genres[0];
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
@@ -53,5 +53,20 @@ export default class FilmCard extends AbstractComponent {
 
   setCommentsClickHandler(handler) {
     this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, handler);
+  }
+
+  setWatchlistButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+    .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+    .addEventListener(`click`, handler);
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
   }
 }
