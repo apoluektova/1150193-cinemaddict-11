@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -46,48 +48,16 @@ const getFilmDuration = (duration) => {
   return filmDuration;
 };
 
-const getMonthName = (monthNumber) => {
-  const months = [
-    `January`,
-    `Fabruary`,
-    `March`,
-    `April`,
-    `May`,
-    `June`,
-    `July`,
-    `August`,
-    `September`,
-    `October`,
-    `November`,
-    `December`,
-  ];
-  return months[monthNumber];
-};
-
 const formatDate = (date) => {
-  const timestamp = Date.parse(date);
-  const parsedDate = new Date(timestamp);
-  const day = parsedDate.getDate();
-  const month = getMonthName(parsedDate.getMonth());
-  const year = parsedDate.getFullYear();
-  const fullDate = `${day} ${month} ${year}`;
-  return fullDate;
+  return moment(date).format(`DD MMMM YYYY`);
 };
 
 const formatCommentDate = (date) => {
-  const timestamp = Date.parse(date);
-  const parsedDate = new Date(timestamp);
-  const day = parsedDate.getDate();
-  const month = parsedDate.getMonth();
-  const year = parsedDate.getFullYear();
-  const hours = parsedDate.getHours();
-  const minutes = parsedDate.getMinutes();
-  const commentDate = `${year}/${month}/${day} ${hours}:${minutes}`;
-  return commentDate;
+  return moment(date).fromNow();
 };
 
 const getDateFromString = (date) => {
-  return new Date(date).valueOf();
+  return moment(date).valueOf();
 };
 
 export {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getShortDescription, getFilmDuration, formatDate, formatCommentDate, getDateFromString};
