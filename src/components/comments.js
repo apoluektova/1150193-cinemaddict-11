@@ -1,3 +1,5 @@
+import AbstractComponent from "./abstract-component.js";
+
 export const createCommentsTemplate = (comment) => {
   const {emoji, text, author, date} = comment;
   return (
@@ -16,3 +18,5 @@ export const createCommentsTemplate = (comment) => {
       </li>`
   );
 };
+
+

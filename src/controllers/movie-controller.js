@@ -25,7 +25,6 @@ export default class MovieController {
 
     this._filmCardComponent = new FilmCardComponent(film);
     this._filmDetailsComponent = new FilmDetailsComponent(film);
-    // this._body = document.querySelector(`body`);
 
     const onFilmCardElementClick = () => {
       this._mode = Mode.DETAILS;
@@ -48,19 +47,22 @@ export default class MovieController {
       onFilmCardElementClick();
     });
 
-    this._filmCardComponent.setWatchedButtonClickHandler(() => {
+    this._filmCardComponent.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
       this._onDataChange(film, Object.assign({}, film, {
         alreadyWatched: !film.alreadyWatched,
       }));
     });
 
-    this._filmCardComponent.setWatchlistButtonClickHandler(() => {
+    this._filmCardComponent.setWatchlistButtonClickHandler((evt) => {
+      evt.preventDefault();
       this._onDataChange(film, Object.assign({}, film, {
         watchlist: !film.watchlist,
       }));
     });
 
-    this._filmCardComponent.setFavoritesButtonClickHandler(() => {
+    this._filmCardComponent.setFavoritesButtonClickHandler((evt) => {
+      evt.preventDefault();
       this._onDataChange(film, Object.assign({}, film, {
         isFavorite: !film.isFavorite,
       }));
@@ -101,6 +103,12 @@ export default class MovieController {
     } else {
       render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._filmCardComponent);
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {

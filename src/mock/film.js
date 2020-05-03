@@ -1,8 +1,10 @@
 import {FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, DATES, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS} from "../const.js";
 import {getRandomIntegerNumber, getRandomDecimalNumber, getRandomArrayItem, getRandomArray, getFilmDuration, formatDate} from "../utils/common.js";
+import {generateComments} from "./comment.js";
 
 const generateFilm = () => {
   return {
+    id: String(new Date() + Math.random()),
     title: getRandomArrayItem(FILM_TITLES),
     alternativeTitle: getRandomArrayItem(ALTERNATIVE_TITLES),
     rating: getRandomDecimalNumber(0, 10).toFixed(1),
@@ -16,7 +18,7 @@ const generateFilm = () => {
     duration: getFilmDuration(getRandomIntegerNumber(60, 300)),
     genres: getRandomArray(GENRES, getRandomIntegerNumber(1, GENRES.length)),
     description: getRandomArray(FILM_DESCRIPTIONS, getRandomIntegerNumber(1, FILM_DESCRIPTIONS.length)).join(` `),
-    commentsAmount: getRandomIntegerNumber(0, 5),
+    comments: generateComments(getRandomIntegerNumber(0, 7)),
     watchlist: Math.random() > 0.5,
     alreadyWatched: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,

@@ -1,4 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import CommentsComponent from "./comments.js";
 import {createCommentsTemplate} from "./comments.js";
 import {generateComments} from "../mock/comment.js";
 
@@ -28,10 +29,9 @@ const createEmojiMarkup = (emojiList) => {
 };
 
 export const createFilmDetailsTemplate = (film) => {
-  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genres, releaseCountry, description, commentsAmount, watchlist, alreadyWatched, isFavorite} = film;
+  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genres, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
   const genresMarkup = createFilmGenresMarkup(genres);
   const ageRatingString = `${ageRating}+`;
-  const comments = generateComments(commentsAmount);
   const commentsList = comments.map((comment) => {
     return createCommentsTemplate(comment);
   }).join(`\n`);
@@ -118,7 +118,7 @@ export const createFilmDetailsTemplate = (film) => {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsAmount}</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
               ${commentsList}
