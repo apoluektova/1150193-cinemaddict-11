@@ -6,7 +6,6 @@ const createFilmCardTemplate = (film) => {
   const {title, rating, releaseDate, duration, genres, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
   const genre = genres[0];
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
-  // const comments = `${comments.length} comments`;
   const watchlistButtonActiveClass = watchlist ? `` : `film-card__controls-item--active`;
   const alreadyWatchedButtonActiveClass = alreadyWatched ? `` : `film-card__controls-item--active`;
   const isFavoriteButtonActiveClass = isFavorite ? `` : `film-card__controls-item--active`;

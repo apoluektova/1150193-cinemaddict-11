@@ -1,15 +1,15 @@
 import {FilterType} from "../const.js";
 
 export const getWatchlistFilms = (films) => {
-  return films.filter((film) => film.watchlist);
+  return films.filter((film) => !film.watchlist);
 };
 
 export const getWatchedFilms = (films) => {
-  return films.filter((film) => film.alreadyWatched);
+  return films.filter((film) => !film.alreadyWatched);
 };
 
 export const getFavoriteFilms = (films) => {
-  return films.filter((film) => film.isFavorite);
+  return films.filter((film) => !film.isFavorite);
 };
 
 export const getFilmsByFilter = (films, filterType) => {

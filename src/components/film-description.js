@@ -1,7 +1,4 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import CommentsComponent from "./comments.js";
-import moment from "moment";
-import {formatCommentDate} from "../utils/common.js";
 
 const createFilmGenresMarkup = (genres) => {
   return genres
@@ -14,13 +11,12 @@ const createFilmGenresMarkup = (genres) => {
 };
 
 export const createFilmDetailsTemplate = (film) => {
-  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genres, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
+  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genres, releaseCountry, description, watchlist, alreadyWatched, isFavorite} = film;
   const genresMarkup = createFilmGenresMarkup(genres);
   const ageRatingString = `${ageRating}+`;
   const watchlistButtonChecked = watchlist ? `` : `checked`;
   const alreadyWatchedButtonChecked = alreadyWatched ? `` : `checked`;
   const isFavoriteButtonChecked = isFavorite ? `` : `checked`;
-  const commentsSection = new CommentsComponent(comments).getTemplate();
 
 
   return (
@@ -97,7 +93,6 @@ export const createFilmDetailsTemplate = (film) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
-        ${commentsSection}
       </form>
     </section>`
   );
@@ -131,40 +126,6 @@ export default class FilmDetails extends AbstractSmartComponent {
   setFavoritesButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
-  }
-
-  setEmojiClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-list`)
-    .addEventListener(`change`, handler);
-  }
-
-  setDeleteButtonClickHandler(handler) {
-    const deleteButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
-    Array.from(deleteButtons).forEach((button) => {
-      button.addEventListener(`click`, handler);
-    });
-  }
-
-  setAddCommentHandler(handler) {
-    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
-    commentField.addEventListener(`keydown`, handler);
-  }
-
-  getCommentData() {
-    const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
-    const emojiName = emojiElement.alt.substring((`emoji-`).length);
-
-    const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
-    const date = moment().format();
-    const emotion = emojiElement ? emojiName : ``;
-
-    return {
-      id: String(new Date() + Math.random()),
-      text: comment,
-      emoji: emotion,
-      author: `User`,
-      date: formatCommentDate(date),
-    };
   }
 
   recoveryListeners() {

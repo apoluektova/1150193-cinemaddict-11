@@ -19,6 +19,7 @@ const renderFilmCard = (filmsListElement, film) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
+  
 
   const filmCard = new FilmCardComponent(film);
 

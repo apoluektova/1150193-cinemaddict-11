@@ -3,12 +3,14 @@ import SortingComponent, {SortType} from "../components/sorting.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import NoFilmsComponent from "../components/no-films.js";
 import MovieController from "./movie-controller.js";
+import ExtraFilmsComponent from "../components/extra-films.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getDateFromString} from "../utils/common.js";
 
 const Cards = {
   SHOWN: 5,
   BY_BUTTON: 5,
+  EXTRA: 2,
 };
 
 const renderFilmCards = (filmsListElement, films, onDataChange, onViewChange) => {
@@ -69,7 +71,7 @@ export default class PageController {
     films = this._filmsModel.getFilms();
 
     const sortedFilmCards = getSortedFilmCards(films, this._sortComponent.getSortType(), prevFilmsCount, this._shownFilmsCount);
-    const newFilmCards = renderFilmCards(this._filmsListElement, sortedFilmCards, this._onDataCange, this._onViewChange);
+    const newFilmCards = renderFilmCards(this._filmsListElement, sortedFilmCards, this._onDataChange, this._onViewChange);
 
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
 
@@ -132,15 +134,12 @@ export default class PageController {
     }
   }
 
-  // _onCommentsChange(movieController, newData) {
-  //   const films = this._filmsModel.getFilms();
-  //   const comment = films.comment;
-  //   if (newData === null) {
-  //     this._filmsModel.removeComment(comment.id);
-  //     this._updateFilms(this._shownFilmsCount);
-  //   } else {
+  // _onCommentsChange(movieController, oldData, newData) {
+  //   if (oldData === null) {
   //     this._filmsModel.addComment(newData);
   //     movieController.render(newData);
+  //   } else if (newData === null) {
+  //     this._filmsModel.removeComment(oldData.id);
   //   }
   // }
 
