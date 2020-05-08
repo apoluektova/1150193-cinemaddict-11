@@ -2,6 +2,7 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentsComponent from "./comments.js";
 import moment from "moment";
 import {formatCommentDate} from "../utils/common.js";
+import {encode} from "he";
 
 const createFilmGenresMarkup = (genres) => {
   return genres
@@ -154,7 +155,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
     const emojiName = emojiElement.alt.substring((`emoji-`).length);
 
-    const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+    const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
     const emotion = emojiElement ? emojiName : ``;
 
@@ -165,6 +166,16 @@ export default class FilmDetails extends AbstractSmartComponent {
       author: `User`,
       date: formatCommentDate(date),
     };
+  }
+
+  clearCommentData() {
+    const comment = this.getElement().querySelector(`.film-details__comment-input`);
+    comment.value = ``;
+    const emoji = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
+
+    if (emoji) {
+      emoji.remove();
+    }
   }
 
   recoveryListeners() {

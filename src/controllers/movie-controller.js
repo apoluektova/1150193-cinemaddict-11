@@ -70,6 +70,7 @@ export default class MovieController {
 
     this._filmDetailsComponent.setCloseButtonClickHandler(() => {
       remove(this._filmDetailsComponent);
+      this._filmDetailsComponent.clearCommentData();
       this._mode = Mode.DETAILS;
     });
 
@@ -150,6 +151,7 @@ export default class MovieController {
 
     if (isEscKey) {
       remove(this._filmDetailsComponent);
+      this._filmDetailsComponent.clearCommentData();
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
   }

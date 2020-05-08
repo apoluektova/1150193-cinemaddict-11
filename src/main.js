@@ -2,7 +2,6 @@ import ProfileRatingComponent from "./components/profile-rating.js";
 import FilterController from "./controllers/filter.js";
 import PageController from "./controllers/page-controller.js";
 import FilmsComponent from "./components/films.js";
-import ExtraFilmsController from "./controllers/extra-films.js";
 import FooterStatisticsComponent from "./components/footer-statistics.js";
 import FilmsModel from "./models/films.js";
 import {generateFilms} from "./mock/film.js";
@@ -31,14 +30,14 @@ const filmsController = new PageController(filmsContainer, filmsModel);
 render(siteMainElement, filmsContainer, RenderPosition.BEFOREEND);
 filmsController.render(films);
 
-const topRatedController = new ExtraFilmsController(filmsContainer, `Top Rated`);
-const mostCommentedController = new ExtraFilmsController(filmsContainer, `Most Commented`);
-const extraFilmCards = generateFilms(Cards.EXTRA);
+// const topRatedController = new ExtraFilmsController(filmsContainer, `Top Rated`);
+// const mostCommentedController = new ExtraFilmsController(filmsContainer, `Most Commented`);
+// const extraFilmCards = generateFilms(Cards.EXTRA);
 
-if (films.length !== 0) {
-  topRatedController.renderExtraFilms(extraFilmCards);
-  mostCommentedController.renderExtraFilms(extraFilmCards);
-}
+// if (films.length !== 0) {
+//   topRatedController.renderExtraFilms(extraFilmCards);
+//   mostCommentedController.renderExtraFilms(extraFilmCards);
+// }
 
 const siteFooter = document.querySelector(`.footer`);
 if (films.length !== 0) {
