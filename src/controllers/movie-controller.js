@@ -25,7 +25,6 @@ export default class MovieController {
 
     this._filmCardComponent = new FilmCardComponent(film);
     this._filmDetailsComponent = new FilmDetailsComponent(film);
-    // this._body = document.querySelector(`body`);
 
     const onFilmCardElementClick = () => {
       this._mode = Mode.DETAILS;
@@ -48,43 +47,47 @@ export default class MovieController {
       onFilmCardElementClick();
     });
 
-    this._filmCardComponent.setWatchedButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+    this._filmCardComponent.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
         alreadyWatched: !film.alreadyWatched,
       }));
     });
 
-    this._filmCardComponent.setWatchlistButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+    this._filmCardComponent.setWatchlistButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
         watchlist: !film.watchlist,
       }));
     });
 
-    this._filmCardComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+    this._filmCardComponent.setFavoritesButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
         isFavorite: !film.isFavorite,
       }));
     });
 
     this._filmDetailsComponent.setCloseButtonClickHandler(() => {
       remove(this._filmDetailsComponent);
+      this._filmDetailsComponent.clearCommentData();
       this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+      this._onDataChange(this, film, Object.assign({}, film, {
         alreadyWatched: !film.alreadyWatched,
       }));
     });
 
     this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+      this._onDataChange(this, film, Object.assign({}, film, {
         watchlist: !film.watchlist,
       }));
     });
 
     this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(film, Object.assign({}, film, {
+      this._onDataChange(this, film, Object.assign({}, film, {
         isFavorite: !film.isFavorite,
       }));
     });
@@ -95,12 +98,45 @@ export default class MovieController {
       emojiContainer.innerHTML = `<img src="images/emoji/${currentEmoji}.png" width="55" height="55" alt="emoji-${currentEmoji}">`;
     });
 
+    this._filmDetailsComponent.setDeleteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const deleteButton = evt.target;
+      const currentComment = deleteButton.closest(`.film-details__comment`);
+      const commentItems = this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`);
+      const commentsList = Array.from(commentItems);
+      const currentCommentIndex = commentsList.indexOf(currentComment);
+      const comments = film.comments;
+      comments.splice(currentCommentIndex, 1);
+
+      this._onDataChange(this, film, Object.assign({}, film, {comments}));
+    });
+
+    this._filmDetailsComponent.setAddCommentHandler((evt) => {
+      const isCtrlandEnter = evt.key === `Enter` && (evt.ctrlKey || evt.metaKey);
+
+      if (isCtrlandEnter) {
+        const newComment = this._filmDetailsComponent.getCommentData();
+        const newCommentsList = film.comments.concat(newComment);
+
+        this._onDataChange(this, film, Object.assign({}, film, {
+          comments: newCommentsList,
+        }));
+      }
+    });
+
     if (oldFilmDetailsComponent && oldFilmCardComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);
       replace(this._filmDetailsComponent, oldFilmDetailsComponent);
     } else {
       render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._filmCardComponent);
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {
@@ -115,6 +151,7 @@ export default class MovieController {
 
     if (isEscKey) {
       remove(this._filmDetailsComponent);
+      this._filmDetailsComponent.clearCommentData();
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
   }

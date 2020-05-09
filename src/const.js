@@ -109,10 +109,10 @@ const FILM_DESCRIPTIONS = [
 ];
 
 const COMMENT_EMOJIS = [
-  `images/emoji/angry.png`,
-  `images/emoji/puke.png`,
-  `images/emoji/sleeping.png`,
-  `images/emoji/smile.png`,
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`,
 ];
 
 const COMMENT_TEXTS = [
@@ -130,4 +130,11 @@ const COMMENT_AUTHORS = [
   `Noel Gallagher`,
 ];
 
-export {MAX_DESCRIPTION_LENGTH, FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, DATES, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS, COMMENT_EMOJIS, COMMENT_TEXTS, COMMENT_AUTHORS};
+const FilterType = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist `,
+  HISTORY: `History `,
+  FAVORITES: `Favorites `,
+};
+
+export {MAX_DESCRIPTION_LENGTH, FILM_TITLES, ALTERNATIVE_TITLES, POSTER_LINKS, DIRECTORS, WRITERS, ACTORS, DATES, RELEASE_COUNTRIES, GENRES, FILM_DESCRIPTIONS, COMMENT_EMOJIS, COMMENT_TEXTS, COMMENT_AUTHORS, FilterType};

@@ -3,6 +3,7 @@ import {getRandomArrayItem, formatCommentDate} from "../utils/common.js";
 
 const generateComment = () => {
   return {
+    id: String(new Date() + Math.random()),
     text: getRandomArrayItem(COMMENT_TEXTS),
     emoji: getRandomArrayItem(COMMENT_EMOJIS),
     author: getRandomArrayItem(COMMENT_AUTHORS),

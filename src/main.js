@@ -1,11 +1,10 @@
 import ProfileRatingComponent from "./components/profile-rating.js";
-import NavigationComponent from "./components/navigation.js";
+import FilterController from "./controllers/filter.js";
 import PageController from "./controllers/page-controller.js";
 import FilmsComponent from "./components/films.js";
-import ExtraFilmsController from "./controllers/extra-films.js";
 import FooterStatisticsComponent from "./components/footer-statistics.js";
+import FilmsModel from "./models/films.js";
 import {generateFilms} from "./mock/film.js";
-import {generateFilters} from "./mock/filters.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 
@@ -15,28 +14,30 @@ const Cards = {
 };
 
 const films = generateFilms(Cards.TOTAL);
-const filters = generateFilters();
+const filmsModel = new FilmsModel();
+filmsModel.setFilms(films);
 
 const siteHeader = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
 render(siteHeader, new ProfileRatingComponent(), RenderPosition.BEFOREEND);
-render(siteMainElement, new NavigationComponent(filters), RenderPosition.BEFOREEND);
+const filterController = new FilterController(siteMainElement, filmsModel);
+filterController.render();
 
 const filmsContainer = new FilmsComponent();
-const filmsController = new PageController(filmsContainer);
+const filmsController = new PageController(filmsContainer, filmsModel);
 
 render(siteMainElement, filmsContainer, RenderPosition.BEFOREEND);
 filmsController.render(films);
 
-const topRatedController = new ExtraFilmsController(filmsContainer, `Top Rated`);
-const mostCommentedController = new ExtraFilmsController(filmsContainer, `Most Commented`);
-const extraFilmCards = generateFilms(Cards.EXTRA);
+// const topRatedController = new ExtraFilmsController(filmsContainer, `Top Rated`);
+// const mostCommentedController = new ExtraFilmsController(filmsContainer, `Most Commented`);
+// const extraFilmCards = generateFilms(Cards.EXTRA);
 
-if (films.length !== 0) {
-  topRatedController.renderExtraFilms(extraFilmCards);
-  mostCommentedController.renderExtraFilms(extraFilmCards);
-}
+// if (films.length !== 0) {
+//   topRatedController.renderExtraFilms(extraFilmCards);
+//   mostCommentedController.renderExtraFilms(extraFilmCards);
+// }
 
 const siteFooter = document.querySelector(`.footer`);
 if (films.length !== 0) {

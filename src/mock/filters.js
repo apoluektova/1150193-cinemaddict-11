@@ -1,5 +1,5 @@
 const filterNames = [
-  `Watchlist`, `History`, `Favorites`
+  `All movies`, `Watchlist`, `History`, `Favorites`
 ];
 
 export const generateFilters = () => {
