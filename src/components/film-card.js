@@ -1,10 +1,11 @@
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 import AbstractComponent from "./abstract-component.js";
-import {getShortDescription} from "../utils/common.js";
+import {getFilmDuration, getShortDescription} from "../utils/common.js";
 
 const createFilmCardTemplate = (film) => {
-  const {title, rating, releaseDate, duration, genres, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
-  const genre = genres[0];
+  const {title, rating, releaseDate, duration, genre, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
+  const filmGenre = genre[0];
+  const filmDuration = getFilmDuration(duration);
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
   const watchlistButtonActiveClass = watchlist ? `` : `film-card__controls-item--active`;
   const alreadyWatchedButtonActiveClass = alreadyWatched ? `` : `film-card__controls-item--active`;
@@ -16,8 +17,8 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${releaseDate}</span>
-        <span class="film-card__duration">${duration}</span>
-        <span class="film-card__genre">${genre}</span>
+        <span class="film-card__duration">${filmDuration}</span>
+        <span class="film-card__genre">${filmGenre}</span>
       </p>
       <img src="./${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${shortDescription}</p>
@@ -60,6 +61,7 @@ export default class FilmCard extends AbstractComponent {
   }
 
   setWatchedButtonClickHandler(handler) {
+    debugger;
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
     .addEventListener(`click`, handler);
   }
