@@ -61,7 +61,6 @@ export default class FilmCard extends AbstractComponent {
   }
 
   setWatchedButtonClickHandler(handler) {
-    debugger;
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
     .addEventListener(`click`, handler);
   }

@@ -6,8 +6,7 @@ import FooterStatisticsComponent from "./components/footer-statistics.js";
 import FilmsModel from "./models/films.js";
 import StatisticsComponent from "./components/statistics.js";
 import {generateFilms} from "./mock/film.js";
-import {render, RenderPosition, remove} from "./utils/render.js";
-
+import {render, RenderPosition} from "./utils/render.js";
 
 const Cards = {
   TOTAL: 20,
@@ -35,9 +34,14 @@ const statisticsComponent = new StatisticsComponent(films);
 render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
 statisticsComponent.hide();
 
-filterController.setOnStatsClick(() => {
-  filmsController.hide();
-  statisticsComponent.show(filmsModel.getFilmsAll());
+filterController.setOnMenuItemClick((menuItem) => {
+  if (menuItem === `stats`) {
+    filmsController.hide();
+    statisticsComponent.show(filmsModel.getFilmsAll());
+  } else {
+    filmsController.show();
+    statisticsComponent.hide();
+  }
 });
 
 // const topRatedController = new ExtraFilmsController(filmsContainer, `Top Rated`);

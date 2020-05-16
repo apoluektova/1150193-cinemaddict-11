@@ -53,31 +53,19 @@ export default class MainNavigation extends AbstractComponent {
     });
   }
 
-  setOnStatsClick(handler) {
-    const statsButton = this.getElement().querySelector(`.main-navigation__additional`);
-    statsButton.addEventListener(`click`, (evt) => {
+  setOnMenuItemClick(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      if (evt.target.classList.contains(`main-navigation__additional--active`)) {
-        return;
-      }
+      // if (evt.target.classList.contains(`main-navigation__additional`)) {
+      //   this.getElement().querySelector(`.main-navigation__item`).classList.remove(`main-navigation__item--active`);
+      //   evt.target.classList.add(`main-navigation__additional--active`);
+      // }
 
-      this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
-      evt.target.classList.add(`main-navigation__additional--active`);
+      const menuLink = evt.target.getAttribute(`href`);
+      const menuItem = menuLink.split(`#`)[1];
 
-      handler();
+      handler(menuItem);
     });
   }
 }
-
-// setOnChange(handler) {
-//   this.getElement().addEventListener(`click`, (evt) => {
-//     if (evt.target.tagName !== `A`) {
-//       return;
-//     }
-//     const menuLink = evt.target.getAttribute(`href`);
-//     const menuItem = menuLink.split(`#`)[1];
-
-//     handler(menuItem);
-//   });
-// }

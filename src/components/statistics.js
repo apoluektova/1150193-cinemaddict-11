@@ -3,7 +3,6 @@ import {getUserRank} from "./profile-rating.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
-import {formatDate} from "../utils/common.js";
 
 const filterNames = [`All time`, `Today`, `Week`, `Month`, `Year`];
 const DEFAULT_FILTER = `all-time`;
@@ -14,12 +13,12 @@ const getFilterIdByName = (filterName) => {
   return filterId;
 };
 
-const createFilterMarkup = (filters) => {
-  return filters
-  .map((filter) => {
+const createFilterMarkup = (filter) => {
+  return filterNames
+  .map((name) => {
     return (
-      `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${getFilterIdByName(filter)}" value="${getFilterIdByName(filter)}" ${filter === `All time` ? `checked` : ``}>
-      <label for="statistic-${getFilterIdByName(filter)}" class="statistic__filters-label">${filter}</label>`
+      `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${getFilterIdByName(name)}" value="${getFilterIdByName(name)}" ${getFilterIdByName(name) === filter ? `checked` : ``}>
+      <label for="statistic-${getFilterIdByName(name)}" class="statistic__filters-label">${name}</label>`
     );
   })
   .join(`\n`);
@@ -63,8 +62,8 @@ const getFilmsAmountByGenre = (films) => {
 };
 
 
-const createStatisticsTemplate = (films) => {
-  const filterMarkup = createFilterMarkup(filterNames);
+const createStatisticsTemplate = (films, filter) => {
+  const filterMarkup = createFilterMarkup(filter);
   const watchedFilmsAmount = getWatchedFilmsAmount(films);
   const userRank = getUserRank(films);
   const watchedFilms = films.filter((film) => !film.alreadyWatched);
@@ -173,7 +172,6 @@ const renderChart = (genresCtx, films) => {
 };
 
 const getFilmsByFilter = (films, filter) => {
-  debugger;
   switch (filter) {
     case `all-time`:
       return films;
@@ -202,7 +200,7 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createStatisticsTemplate(this._films);
+    return createStatisticsTemplate(this._films, this._filter);
   }
 
   show(updatedFilms) {

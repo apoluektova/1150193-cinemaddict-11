@@ -13,7 +13,7 @@ export default class FilterController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
-    this.setOnStatsClick = this.setOnStatsClick.bind(this);
+    this.setOnMenuItemClick = this.setOnMenuItemClick.bind(this);
 
     this._filmsModel.setDataChangeHandler(this._onDataChange);
   }
@@ -34,10 +34,7 @@ export default class FilterController {
 
     this._mainNavigationComponent = new MainNavigationComponent(filters);
     this._mainNavigationComponent.setFilterChangeHandler(this._onFilterChange);
-
-    if (this._onStatsClickHandler) {
-      this._mainNavigationComponent.setOnStatsClick(this._onStatsClickHandler);
-    }
+    this._mainNavigationComponent.setOnMenuItemClick(this._onMenuItemClick);
 
     if (oldComponent) {
       replace(this._mainNavigationComponent, oldComponent);
@@ -55,10 +52,10 @@ export default class FilterController {
     this.render();
   }
 
-  setOnStatsClick(handler) {
-    this._mainNavigationComponent.setOnStatsClick(handler);
+  setOnMenuItemClick(handler) {
+    this._mainNavigationComponent.setOnMenuItemClick(handler);
 
-    this._onStatsClickHandler = handler;
+    this._onMenuItemClick = handler;
   }
 }
 
