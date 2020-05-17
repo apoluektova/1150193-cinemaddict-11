@@ -7,9 +7,9 @@ const createFilmCardTemplate = (film) => {
   const filmGenre = genre[0];
   const filmDuration = getFilmDuration(duration);
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
-  const watchlistButtonActiveClass = watchlist ? `` : `film-card__controls-item--active`;
-  const alreadyWatchedButtonActiveClass = alreadyWatched ? `` : `film-card__controls-item--active`;
-  const isFavoriteButtonActiveClass = isFavorite ? `` : `film-card__controls-item--active`;
+  const watchlistButtonActiveClass = watchlist ? `film-card__controls-item--active` : ``;
+  const alreadyWatchedButtonActiveClass = alreadyWatched ? `film-card__controls-item--active` : ``;
+  const isFavoriteButtonActiveClass = isFavorite ? `film-card__controls-item--active` : ``;
 
   return (
     `<article class="film-card">

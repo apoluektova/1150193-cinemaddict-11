@@ -24,8 +24,8 @@ const createFilterMarkup = (filter) => {
   .join(`\n`);
 };
 
-const getWatchedFilmsAmount = (films) => {
-  return films.filter((film) => !film.alreadyWatched).length;
+const getWatchedFilms = (films) => {
+  return films.filter((film) => film.alreadyWatched);
 };
 
 const getTotalFilmDuration = (films) => {
@@ -63,12 +63,12 @@ const getFilmsAmountByGenre = (films) => {
 
 
 const createStatisticsTemplate = (films, filter) => {
+  const watchedFilms = getWatchedFilms(films);
   const filterMarkup = createFilterMarkup(filter);
-  const watchedFilmsAmount = getWatchedFilmsAmount(films);
+  const watchedFilmsAmount = getFilmsByFilter(watchedFilms, filter).length;
   const userRank = getUserRank(films);
-  const watchedFilms = films.filter((film) => !film.alreadyWatched);
-  const totalFilmDuration = getTotalFilmDuration(watchedFilms);
-  const filmsByGenres = getFilmsAmountByGenre(films);
+  const totalFilmDuration = getTotalFilmDuration(getFilmsByFilter(watchedFilms, filter));
+  const filmsByGenres = getFilmsAmountByGenre(watchedFilms);
   const topGenre = films.length ? filmsByGenres[0].genre : ``;
 
   return (
@@ -172,17 +172,18 @@ const renderChart = (genresCtx, films) => {
 };
 
 const getFilmsByFilter = (films, filter) => {
+  const watchedFilms = getWatchedFilms(films);
   switch (filter) {
     case `all-time`:
-      return films;
+      return watchedFilms;
     case `today`:
-      return films.filter((film) => moment(film.watchingDate).isSame(moment(), `day`));
+      return watchedFilms.filter((film) => moment(film.watchingDate).isSame(moment(), `day`));
     case `week`:
-      return films.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(7, `days`)));
+      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(7, `days`)));
     case `month`:
-      return films.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `months`)));
+      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `months`)));
     case `year`:
-      return films.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `years`)));
+      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `years`)));
   }
 
   return films;

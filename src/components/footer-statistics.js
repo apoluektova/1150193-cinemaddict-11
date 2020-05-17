@@ -1,21 +1,21 @@
 import AbstractComponent from "./abstract-component.js";
 
-const createFooterStatisticsTemplate = (number) => {
+const createFooterStatisticsTemplate = (films) => {
   return (
     `<section class="footer__statistics">
-      <p>${number} movies inside</p>
+      <p>${films.length} movies inside</p>
     </section>`
   );
 };
 
 export default class FooterStatistics extends AbstractComponent {
-  constructor(number) {
+  constructor(films) {
     super();
 
-    this._number = number;
+    this._films = films;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate(this._number);
+    return createFooterStatisticsTemplate(this._films);
   }
 }

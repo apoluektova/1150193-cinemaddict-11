@@ -19,9 +19,9 @@ export const createFilmDetailsTemplate = (film) => {
   const genresMarkup = createFilmGenresMarkup(genre);
   const filmDuration = getFilmDuration(duration);
   const ageRatingString = `${ageRating}+`;
-  const watchlistButtonChecked = watchlist ? `` : `checked`;
-  const alreadyWatchedButtonChecked = alreadyWatched ? `` : `checked`;
-  const isFavoriteButtonChecked = isFavorite ? `` : `checked`;
+  const watchlistButtonChecked = watchlist ? `checked` : ``;
+  const alreadyWatchedButtonChecked = alreadyWatched ? `checked` : ``;
+  const isFavoriteButtonChecked = isFavorite ? `checked` : ``;
   const commentsSection = new CommentsComponent(comments).getTemplate();
 
 
