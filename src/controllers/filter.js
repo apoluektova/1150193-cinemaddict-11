@@ -34,7 +34,10 @@ export default class FilterController {
 
     this._mainNavigationComponent = new MainNavigationComponent(filters);
     this._mainNavigationComponent.setFilterChangeHandler(this._onFilterChange);
-    this._mainNavigationComponent.setOnMenuItemClick(this._onMenuItemClick);
+
+    if (this._onMenuItemClick) {
+      this._mainNavigationComponent.setOnMenuItemClick(this._onMenuItemClick);
+    }
 
     if (oldComponent) {
       replace(this._mainNavigationComponent, oldComponent);

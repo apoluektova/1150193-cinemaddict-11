@@ -57,12 +57,19 @@ export default class MainNavigation extends AbstractComponent {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      // if (evt.target.classList.contains(`main-navigation__additional`)) {
-      //   this.getElement().querySelector(`.main-navigation__item`).classList.remove(`main-navigation__item--active`);
-      //   evt.target.classList.add(`main-navigation__additional--active`);
-      // }
+      const menuItems = this.getElement().querySelectorAll(`.main-navigation__item`);
+
+      if (evt.target.classList.contains(`main-navigation__additional`)) {
+        menuItems.forEach((item) => item.classList.remove(`main-navigation__item--active`));
+      } else if (evt.target.classList.contains(`main-navigation__item`)) {
+        this.getElement().querySelector(`.main-navigation__additional`).classList.remove(`main-navigation__item--active`);
+      }
 
       const menuLink = evt.target.getAttribute(`href`);
+      if (!menuLink) {
+        return;
+      }
+
       const menuItem = menuLink.split(`#`)[1];
 
       handler(menuItem);
