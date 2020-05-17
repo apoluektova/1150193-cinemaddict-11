@@ -1,4 +1,4 @@
-import FilterComponent from "../components/filter.js";
+import MainNavigationComponent from "../components/main-navigation.js";
 import {FilterType} from "../const.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {getFilmsByFilter} from "../utils/filter.js";
@@ -9,10 +9,11 @@ export default class FilterController {
     this._filmsModel = filmsModel;
 
     this._activeFilterType = FilterType.ALL;
-    this._filterComponent = null;
+    this._mainNavigationComponent = null;
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+    this.setOnMenuItemClick = this.setOnMenuItemClick.bind(this);
 
     this._filmsModel.setDataChangeHandler(this._onDataChange);
   }
@@ -28,15 +29,20 @@ export default class FilterController {
         checked: filterType === this._activeFilterType,
       };
     });
-    const oldComponent = this._filterComponent;
 
-    this._filterComponent = new FilterComponent(filters);
-    this._filterComponent.setFilterChangeHandler(this._onFilterChange);
+    const oldComponent = this._mainNavigationComponent;
+
+    this._mainNavigationComponent = new MainNavigationComponent(filters);
+    this._mainNavigationComponent.setFilterChangeHandler(this._onFilterChange);
+
+    if (this._onMenuItemClick) {
+      this._mainNavigationComponent.setOnMenuItemClick(this._onMenuItemClick);
+    }
 
     if (oldComponent) {
-      replace(this._filterComponent, oldComponent);
+      replace(this._mainNavigationComponent, oldComponent);
     } else {
-      render(container, this._filterComponent, RenderPosition.BEFOREEND);
+      render(container, this._mainNavigationComponent, RenderPosition.BEFOREEND);
     }
   }
 
@@ -47,6 +53,12 @@ export default class FilterController {
 
   _onDataChange() {
     this.render();
+  }
+
+  setOnMenuItemClick(handler) {
+    this._mainNavigationComponent.setOnMenuItemClick(handler);
+
+    this._onMenuItemClick = handler;
   }
 }
 

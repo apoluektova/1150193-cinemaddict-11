@@ -1,7 +1,7 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentsComponent from "./comments.js";
 import moment from "moment";
-import {formatCommentDate} from "../utils/common.js";
+import {formatCommentDate, getFilmDuration} from "../utils/common.js";
 import {encode} from "he";
 
 const createFilmGenresMarkup = (genres) => {
@@ -15,8 +15,9 @@ const createFilmGenresMarkup = (genres) => {
 };
 
 export const createFilmDetailsTemplate = (film) => {
-  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genres, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
-  const genresMarkup = createFilmGenresMarkup(genres);
+  const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genre, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
+  const genresMarkup = createFilmGenresMarkup(genre);
+  const filmDuration = getFilmDuration(duration);
   const ageRatingString = `${ageRating}+`;
   const watchlistButtonChecked = watchlist ? `` : `checked`;
   const alreadyWatchedButtonChecked = alreadyWatched ? `` : `checked`;
@@ -69,7 +70,7 @@ export const createFilmDetailsTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${filmDuration}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__trm">Country</td>
