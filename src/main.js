@@ -22,7 +22,6 @@ const filmsModel = new FilmsModel();
 const siteHeader = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
-render(siteHeader, new ProfileRatingComponent(filmsModel.getFilmsAll()), RenderPosition.BEFOREEND);
 const filterController = new FilterController(siteMainElement, filmsModel);
 filterController.render();
 
@@ -65,5 +64,6 @@ api.getFilms()
    .then((films) => {
      filmsModel.setFilms(films);
      filmsController.render();
+     render(siteHeader, new ProfileRatingComponent(films), RenderPosition.BEFOREEND);
      render(siteFooter, new FooterStatisticsComponent(films), RenderPosition.BEFOREEND);
    });
