@@ -3,10 +3,11 @@ import FilmsComponent from "./components/films.js";
 import FilmsModel from "./models/films.js";
 import FilterController from "./controllers/filter.js";
 import FooterStatisticsComponent from "./components/footer-statistics.js";
+import LoadingComponent from "./components/loading.js";
 import PageController from "./controllers/page-controller.js";
 import ProfileRatingComponent from "./components/profile-rating.js";
 import StatisticsComponent from "./components/statistics.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {render, RenderPosition, remove} from "./utils/render.js";
 
 const AUTHORIZATION = `Basic asdlkjasoktnLFAasdnoqnv`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
@@ -22,8 +23,12 @@ const filmsModel = new FilmsModel();
 const siteHeader = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
+const loadingComponent = new LoadingComponent();
+
 const filterController = new FilterController(siteMainElement, filmsModel);
 filterController.render();
+
+render(siteMainElement, loadingComponent, RenderPosition.BEFOREEND);
 
 const filmsContainer = new FilmsComponent();
 const filmsController = new PageController(filmsContainer, filmsModel, api);
@@ -62,6 +67,7 @@ const siteFooter = document.querySelector(`.footer`);
 
 api.getFilms()
    .then((films) => {
+     remove(loadingComponent);
      filmsModel.setFilms(films);
      filmsController.render();
      render(siteHeader, new ProfileRatingComponent(films), RenderPosition.BEFOREEND);
