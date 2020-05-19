@@ -9,13 +9,14 @@ import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 const AUTHORIZATION = `Basic asdlkjasoktnLFAasdnoqnv`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const Cards = {
   TOTAL: 20,
   EXTRA: 2,
 };
 
-const api = new API(AUTHORIZATION);
+const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
 
 const siteHeader = document.querySelector(`.header`);

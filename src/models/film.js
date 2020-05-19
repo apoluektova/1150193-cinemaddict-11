@@ -1,5 +1,3 @@
-import {formatDate} from "../utils/common.js";
-
 export default class Film {
   constructor(data) {
     const filmInfo = data.film_info;
@@ -14,7 +12,7 @@ export default class Film {
     this.director = filmInfo.director;
     this.writers = filmInfo.writers;
     this.actors = filmInfo.actors;
-    this.releaseDate = formatDate(filmInfo.release.date);
+    this.releaseDate = filmInfo.release.date;
     this.releaseCountry = filmInfo.release.release_country;
     this.duration = filmInfo.runtime;
     this.genre = filmInfo.genre;
@@ -26,11 +24,45 @@ export default class Film {
     this.watchingDate = userDetails.watching_date;
   }
 
+  toRAW() {
+    return {
+      "id": this.id,
+      "comments": this.comments,
+      "film_info": {
+        "title": this.title,
+        "alternative_title": this.alternativeTitle,
+        "total_rating": this.rating,
+        "poster": this.poster,
+        "age_rating": this.ageRating,
+        "director": this.director,
+        "writers": this.writers,
+        "actors": this.actors,
+        "release": {
+          "date": this.releaseDate,
+          "release_country": this.releaseCountry
+        },
+        "runtime": this.duration,
+        "genre": this.genre,
+        "description": this.description
+      },
+      "user_details": {
+        "watchlist": this.watchlist,
+        "already_watched": this.alreadyWatched,
+        "watching_date": this.watchingDate,
+        "favorite": this.isFavorite
+      }
+    };
+  }
+
   static parseFilm(data) {
     return new Film(data);
   }
 
   static parseFilms(data) {
     return data.map(Film.parseFilm);
+  }
+
+  static clone(data) {
+    return new Film(data.toRAW());
   }
 }

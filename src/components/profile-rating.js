@@ -2,7 +2,7 @@ import AbstractComponent from "./abstract-component.js";
 import {userRank} from "../const.js";
 
 export const getUserRank = (films) => {
-  const watchedFilms = films.filter((film) => !film.alreadyWatched).length;
+  const watchedFilms = films.filter((film) => film.alreadyWatched).length;
   let rank = ``;
 
   if (watchedFilms === 0) {
