@@ -3,7 +3,7 @@ import FilmDetailsComponent from "../components/film-details.js";
 import FilmsModel from './../models/film.js';
 import {render, openPopup, remove, replace, RenderPosition} from "../utils/render.js";
 
-const Mode = {
+export const Mode = {
   DEFAULT: `default`,
   DETAILS: `details`,
 };
@@ -85,6 +85,7 @@ export default class MovieController {
       newFilm.alreadyWatched = !newFilm.alreadyWatched;
 
       this._onDataChange(this, film, newFilm);
+      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
@@ -92,6 +93,7 @@ export default class MovieController {
       newFilm.watchlist = !newFilm.watchlist;
 
       this._onDataChange(this, film, newFilm);
+      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
@@ -99,6 +101,7 @@ export default class MovieController {
       newFilm.isFavorite = !newFilm.isFavorite;
 
       this._onDataChange(this, film, newFilm);
+      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setEmojiClickHandler((evt) => {
@@ -119,6 +122,7 @@ export default class MovieController {
       comments.splice(currentCommentIndex, 1);
 
       this._onDataChange(this, film, Object.assign({}, film, {comments}));
+      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setAddCommentHandler((evt) => {
