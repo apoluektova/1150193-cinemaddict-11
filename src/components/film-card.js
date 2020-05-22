@@ -5,7 +5,7 @@ import {getFilmDuration, getShortDescription, formatDate} from "../utils/common.
 const createFilmCardTemplate = (film) => {
   const {title, rating, releaseDate, duration, genre, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
   const filmDate = formatDate(releaseDate);
-  const filmGenre = genre[0];
+  const filmGenre = genre.length === 0 ? `` : genre[0];
   const filmDuration = getFilmDuration(duration);
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
   const watchlistButtonActiveClass = watchlist ? `film-card__controls-item--active` : ``;

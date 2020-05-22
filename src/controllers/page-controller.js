@@ -143,7 +143,6 @@ export default class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    debugger;
     this._api.updateFilm(oldData.id, newData)
     .then((filmModel) => {
       const isSuccess = this._filmsModel.updateFilm(oldData.id, filmModel);

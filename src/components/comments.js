@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
+import {formatCommentDate} from "../utils/common.js";
 
 const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
@@ -17,6 +18,7 @@ const createEmojiMarkup = (emojiList) => {
 
 const createCommentsListMarkup = (commentItem) => {
   const {emotion, comment, author, date} = commentItem;
+  const commentDate = formatCommentDate(date);
   return (
     `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
@@ -26,7 +28,7 @@ const createCommentsListMarkup = (commentItem) => {
           <p class="film-details__comment-text">${comment}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${date}</span>
+            <span class="film-details__comment-day">${commentDate}</span>
             <button class="film-details__comment-delete">Delete</button>
           </p>
         </div>

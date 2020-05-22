@@ -24,10 +24,10 @@ export default class Film {
     this.watchingDate = userDetails.watching_date;
   }
 
-  toRAW() {
+  toRAW(clone = false) {
     return {
       "id": this.id,
-      "comments": this.comments,
+      "comments": clone ? this.comments : this.comments.map(({id}) => id),
       "film_info": {
         "title": this.title,
         "alternative_title": this.alternativeTitle,
@@ -63,6 +63,6 @@ export default class Film {
   }
 
   static clone(data) {
-    return new Film(data.toRAW());
+    return new Film(data.toRAW(true));
   }
 }
