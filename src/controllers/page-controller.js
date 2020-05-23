@@ -2,7 +2,7 @@ import FilmsListComponent from "../components/films-list.js";
 import SortingComponent, {SortType} from "../components/sorting.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import NoFilmsComponent from "../components/no-films.js";
-import MovieController, {Mode as MovieControllerMode} from "./movie-controller.js";
+import MovieController from "./movie-controller.js";
 import ExtraFilmsComponent from "../components/extra-films.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import {getDateFromString} from "../utils/common.js";

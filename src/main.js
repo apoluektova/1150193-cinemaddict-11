@@ -12,11 +12,6 @@ import {render, RenderPosition, remove} from "./utils/render.js";
 const AUTHORIZATION = `Basic asdlkjasoktnLFAasdnoqnv`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
-const Cards = {
-  TOTAL: 20,
-  EXTRA: 2,
-};
-
 const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
 
