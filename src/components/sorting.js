@@ -46,12 +46,11 @@ export default class Sorting extends AbstractComponent {
       if (this._currenSortType === sortType) {
         return;
       }
+      this._currenSortType = sortType;
 
       siblingsElements.forEach((el) => {
         el.firstElementChild.classList.remove(`sort__button--active`);
       });
-
-      this._currenSortType = sortType;
 
       evt.target.classList.add(`sort__button--active`);
 

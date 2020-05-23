@@ -1,22 +1,23 @@
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 import AbstractComponent from "./abstract-component.js";
-import {getFilmDuration, getShortDescription} from "../utils/common.js";
+import {getFilmDuration, getShortDescription, formatDate} from "../utils/common.js";
 
 const createFilmCardTemplate = (film) => {
   const {title, rating, releaseDate, duration, genre, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
-  const filmGenre = genre[0];
+  const filmDate = formatDate(releaseDate);
+  const filmGenre = genre.length === 0 ? `` : genre[0];
   const filmDuration = getFilmDuration(duration);
   const shortDescription = getShortDescription(description, MAX_DESCRIPTION_LENGTH);
-  const watchlistButtonActiveClass = watchlist ? `` : `film-card__controls-item--active`;
-  const alreadyWatchedButtonActiveClass = alreadyWatched ? `` : `film-card__controls-item--active`;
-  const isFavoriteButtonActiveClass = isFavorite ? `` : `film-card__controls-item--active`;
+  const watchlistButtonActiveClass = watchlist ? `film-card__controls-item--active` : ``;
+  const alreadyWatchedButtonActiveClass = alreadyWatched ? `film-card__controls-item--active` : ``;
+  const isFavoriteButtonActiveClass = isFavorite ? `film-card__controls-item--active` : ``;
 
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">${releaseDate}</span>
+        <span class="film-card__year">${filmDate}</span>
         <span class="film-card__duration">${filmDuration}</span>
         <span class="film-card__genre">${filmGenre}</span>
       </p>
