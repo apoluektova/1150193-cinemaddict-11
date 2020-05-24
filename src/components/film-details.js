@@ -1,8 +1,12 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentsComponent from "./comments.js";
 import moment from "moment";
-import {formatCommentDate, getFilmDuration, formatDate} from "../utils/common.js";
+import {getFilmDuration, formatDate} from "../utils/common.js";
 import {encode} from "he";
+
+const EMOJI_URL_PREFIX_COUNT = 35;
+const EMOJI_SUBSTRING_START = 0;
+const EMOJI_URL_POSTFIX_COUNT = 4;
 
 const createFilmGenresMarkup = (genres) => {
   return genres
@@ -155,16 +159,15 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   getCommentData() {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
-    const emojiName = emojiElement.alt.substring((`emoji-`).length);
+    const emojiName = emojiElement ? emojiElement.src.substring(EMOJI_URL_PREFIX_COUNT) : ``;
 
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
     const emotion = emojiElement ? emojiName : ``;
 
     return {
-      // id: String(new Date() + Math.random()),
       comment,
-      emotion,
+      emotion: `${emotion.substring(EMOJI_SUBSTRING_START, emotion.length - EMOJI_URL_POSTFIX_COUNT)}`,
       date,
     };
   }

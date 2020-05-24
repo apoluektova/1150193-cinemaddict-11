@@ -54,12 +54,6 @@ const API = class {
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json());
-    // .then(({comments, film}) => {
-    //   const parsedFilm = Film.parseFilm(film);
-    //   parsedFilm.comments = comments;
-
-    //   return parsedFilm;
-    // });
   }
 
   deleteComment(id) {

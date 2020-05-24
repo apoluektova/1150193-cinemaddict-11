@@ -117,7 +117,7 @@ export default class MovieController {
 
     this._filmDetailsComponent.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();
-      
+
       const newFilm = FilmsModel.clone(film);
       const deleteButton = evt.target;
       const currentComment = deleteButton.closest(`.film-details__comment`);
@@ -130,21 +130,41 @@ export default class MovieController {
       .then(() => {
         newFilm.comments = film.comments;
         newFilm.comments.splice(currentCommentIndex, 1);
+
+        deleteButton.innerHTML = `Deleting...`;
+        deleteButton.setAttribute(`disabled`, `true`);
+
         this._onDataChange(this, film, newFilm);
+      })
+      .catch(() => {
+        this._shakeComment(currentComment);
       });
     });
 
     this._filmDetailsComponent.setAddCommentHandler((evt) => {
+      evt.target.style.border = `none`;
+
       const isCtrlandEnter = evt.key === `Enter` && (evt.ctrlKey || evt.metaKey);
       const newFilm = FilmsModel.clone(film);
 
       if (isCtrlandEnter) {
         const newComment = this._filmDetailsComponent.getCommentData();
+        const form = document.querySelector(`.film-details__inner`);
 
         this._api.createComment(newFilm.id, newComment)
         .then(() => {
           newFilm.comments.concat(newComment);
+
+          const formELements = form.querySelectorAll(`button, input, textarea`);
+          formELements.forEach((element) => {
+            element.setAttribute(`disabled`, `disabled`);
+          });
+
           this._onDataChange(this, film, newFilm);
+        })
+        .catch(() => {
+          this.shake();
+          this._addCommentFieldBorder();
         });
       }
     });
@@ -172,12 +192,23 @@ export default class MovieController {
 
   shake() {
     this._filmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / MILLISECONDS_COUNT}s`;
-    this._filmCardComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / MILLISECONDS_COUNT}s`;
 
     setTimeout(() => {
       this._filmDetailsComponent.getElement().style.animation = ``;
-      this._filmCard.getElement().style.animation = ``;
     }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  _shakeComment(currentComment) {
+    currentComment.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / MILLISECONDS_COUNT}s`;
+
+    setTimeout(() => {
+      currentComment.style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  _addCommentFieldBorder() {
+    this._filmDetailsComponent.getElement().querySelector(`.film-details__comment-input`).style.border = `2px solid red`;
+    this._filmDetailsComponent.getElement().querySelector(`.film-details__comment-input`).removeAttribute(`disabled`);
   }
 
   _onEscKeyDown(evt) {

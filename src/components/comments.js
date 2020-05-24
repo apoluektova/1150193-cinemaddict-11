@@ -3,6 +3,7 @@ import {formatCommentDate} from "../utils/common.js";
 
 const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
+
 const createEmojiMarkup = (emojiList) => {
   return emojiList
   .map((emoji) => {
