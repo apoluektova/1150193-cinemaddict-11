@@ -17,10 +17,10 @@ const createEmojiMarkup = (emojiList) => {
 };
 
 const createCommentsListMarkup = (commentItem) => {
-  const {emotion, comment, author, date} = commentItem;
+  const {emotion, comment, author, date, id} = commentItem;
   const commentDate = formatCommentDate(date);
   return (
-    `<li class="film-details__comment">
+    `<li class="film-details__comment", id=${id}>
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
         </span>

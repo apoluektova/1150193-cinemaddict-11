@@ -48,13 +48,18 @@ const API = class {
 
   createComment(id, comment) {
     return this._load({
-      url: `/comments/${id}`,
+      url: `comments/${id}`,
       method: Method.POST,
       body: JSON.stringify(comment),
       headers: new Headers({"Content-Type": `application/json`})
     })
-      .then((response) => response.json())
-      .then(Film.parseFilm);
+      .then((response) => response.json());
+    // .then(({comments, film}) => {
+    //   const parsedFilm = Film.parseFilm(film);
+    //   parsedFilm.comments = comments;
+
+    //   return parsedFilm;
+    // });
   }
 
   deleteComment(id) {

@@ -3,17 +3,22 @@ import FilmDetailsComponent from "../components/film-details.js";
 import FilmsModel from './../models/film.js';
 import {render, openPopup, remove, replace, RenderPosition} from "../utils/render.js";
 
-export const Mode = {
+const SHAKE_ANIMATION_TIMEOUT = 600;
+const MILLISECONDS_COUNT = 1000;
+
+const Mode = {
   DEFAULT: `default`,
   DETAILS: `details`,
 };
 
 export default class MovieController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, api, filmsModel) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._mode = Mode.DEFAULT;
+    this._api = api;
+    this._filmModel = filmsModel;
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
 
@@ -112,29 +117,35 @@ export default class MovieController {
 
     this._filmDetailsComponent.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();
-
+      
+      const newFilm = FilmsModel.clone(film);
       const deleteButton = evt.target;
       const currentComment = deleteButton.closest(`.film-details__comment`);
+      const currentCommentId = deleteButton.closest(`.film-details__comment`).id;
       const commentItems = this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`);
       const commentsList = Array.from(commentItems);
       const currentCommentIndex = commentsList.indexOf(currentComment);
-      const comments = film.comments;
-      comments.splice(currentCommentIndex, 1);
 
-      this._onDataChange(this, film, Object.assign({}, film, {comments}));
-      this._mode = Mode.DETAILS;
+      this._api.deleteComment(currentCommentId)
+      .then(() => {
+        newFilm.comments = film.comments;
+        newFilm.comments.splice(currentCommentIndex, 1);
+        this._onDataChange(this, film, newFilm);
+      });
     });
 
     this._filmDetailsComponent.setAddCommentHandler((evt) => {
       const isCtrlandEnter = evt.key === `Enter` && (evt.ctrlKey || evt.metaKey);
+      const newFilm = FilmsModel.clone(film);
 
       if (isCtrlandEnter) {
         const newComment = this._filmDetailsComponent.getCommentData();
-        const newCommentsList = film.comments.concat(newComment);
 
-        this._onDataChange(this, film, Object.assign({}, film, {
-          comments: newCommentsList,
-        }));
+        this._api.createComment(newFilm.id, newComment)
+        .then(() => {
+          newFilm.comments.concat(newComment);
+          this._onDataChange(this, film, newFilm);
+        });
       }
     });
 
@@ -157,6 +168,16 @@ export default class MovieController {
       remove(this._filmDetailsComponent);
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
+  }
+
+  shake() {
+    this._filmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / MILLISECONDS_COUNT}s`;
+    this._filmCardComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / MILLISECONDS_COUNT}s`;
+
+    setTimeout(() => {
+      this._filmDetailsComponent.getElement().style.animation = ``;
+      this._filmCard.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _onEscKeyDown(evt) {

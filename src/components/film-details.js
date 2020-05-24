@@ -162,11 +162,10 @@ export default class FilmDetails extends AbstractSmartComponent {
     const emotion = emojiElement ? emojiName : ``;
 
     return {
-      id: String(new Date() + Math.random()),
-      text: comment,
-      emoji: emotion,
-      author: `User`,
-      date: formatCommentDate(date),
+      // id: String(new Date() + Math.random()),
+      comment,
+      emotion,
+      date,
     };
   }
 
