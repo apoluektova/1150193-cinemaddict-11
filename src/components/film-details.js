@@ -26,6 +26,7 @@ export const createFilmDetailsTemplate = (film) => {
   const genresMarkup = createFilmGenresMarkup(genre);
   const filmDuration = getFilmDuration(duration);
   const ageRatingString = `${ageRating}+`;
+  const filmDescription = description[0].toUpperCase() + description.substring(1);
   const watchlistButtonChecked = watchlist ? `checked` : ``;
   const alreadyWatchedButtonChecked = alreadyWatched ? `checked` : ``;
   const isFavoriteButtonChecked = isFavorite ? `checked` : ``;
@@ -90,7 +91,7 @@ export const createFilmDetailsTemplate = (film) => {
               </table>
 
               <p class="film-details__film-description">
-                ${description}
+                ${filmDescription}
               </p>
             </div>
           </div>
