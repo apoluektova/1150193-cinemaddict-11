@@ -4,9 +4,11 @@ import moment from "moment";
 import {getFilmDuration, formatDate} from "../utils/common.js";
 import {encode} from "he";
 
-const EMOJI_URL_PREFIX_COUNT = 35;
-const EMOJI_SUBSTRING_START = 0;
-const EMOJI_URL_POSTFIX_COUNT = 4;
+const Emoji = {
+  URL_PREFIX_COUNT: 35,
+  SUBSTRING_START: 0,
+  URL_POSTFIX_COUNT: 4,
+};
 
 const createFilmGenresMarkup = (genres) => {
   return genres
@@ -82,7 +84,7 @@ export const createFilmDetailsTemplate = (film) => {
                   <td class="film-details__cell">${releaseCountry}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${genre.length === 1 ? `Genre` : `Genres`}</td>
                   <td class="film-details__cell">${genresMarkup}</td>
                 </tr>
               </table>
@@ -159,7 +161,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   getCommentData() {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
-    const emojiName = emojiElement ? emojiElement.src.substring(EMOJI_URL_PREFIX_COUNT) : ``;
+    const emojiName = emojiElement ? emojiElement.src.substring(Emoji.URL_PREFIX_COUNT) : ``;
 
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
@@ -167,7 +169,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     return {
       comment,
-      emotion: `${emotion.substring(EMOJI_SUBSTRING_START, emotion.length - EMOJI_URL_POSTFIX_COUNT)}`,
+      emotion: `${emotion.substring(Emoji.SUBSTRING_START, emotion.length - Emoji.URL_POSTFIX_COUNT)}`,
       date,
     };
   }

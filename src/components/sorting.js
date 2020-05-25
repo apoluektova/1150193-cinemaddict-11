@@ -6,6 +6,8 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
+const LINK_TAG_NAME = `A`;
+
 const createSortingTemplate = () => {
   return (
     `<ul class="sort">
@@ -20,7 +22,7 @@ export default class Sorting extends AbstractComponent {
   constructor() {
     super();
 
-    this._currenSortType = SortType.DEFAULT;
+    this._currentSortType = SortType.DEFAULT;
   }
 
   getTemplate() {
@@ -28,7 +30,7 @@ export default class Sorting extends AbstractComponent {
   }
 
   getSortType() {
-    return this._currenSortType;
+    return this._currentSortType;
   }
 
   setSortTypeChangeHandler(handler) {
@@ -37,24 +39,24 @@ export default class Sorting extends AbstractComponent {
 
       const siblingsElements = Array.from(evt.target.parentNode.parentNode.children);
 
-      if (evt.target.tagName !== `A`) {
+      if (evt.target.tagName !== LINK_TAG_NAME) {
         return;
       }
 
       const sortType = evt.target.dataset.sortType;
 
-      if (this._currenSortType === sortType) {
+      if (this._currentSortType === sortType) {
         return;
       }
-      this._currenSortType = sortType;
+      this._currentSortType = sortType;
 
-      siblingsElements.forEach((el) => {
-        el.firstElementChild.classList.remove(`sort__button--active`);
+      siblingsElements.forEach((element) => {
+        element.firstElementChild.classList.remove(`sort__button--active`);
       });
 
       evt.target.classList.add(`sort__button--active`);
 
-      handler(this._currenSortType);
+      handler(this._currentSortType);
     });
   }
 }
