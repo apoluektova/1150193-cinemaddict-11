@@ -9,11 +9,12 @@ import ProfileRatingComponent from "./components/profile-rating.js";
 import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
 
-const AUTHORIZATION = `Basic asdlkjasoktnLmAasdnoqnv`;
+const AUTHORIZATION = `Basic asClkjasoklnLmAasdnoLv`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
+console.log(filmsModel);
 
 const siteHeader = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);

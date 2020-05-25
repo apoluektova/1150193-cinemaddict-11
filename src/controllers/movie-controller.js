@@ -2,6 +2,7 @@ import FilmCardComponent from "../components/film-card.js";
 import FilmDetailsComponent from "../components/film-details.js";
 import FilmsModel from './../models/film.js';
 import {render, openPopup, remove, replace, RenderPosition} from "../utils/render.js";
+import moment from "moment";
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
 const MILLISECONDS_COUNT = 1000;
@@ -35,6 +36,7 @@ export default class MovieController {
     const onFilmCardElementClick = () => {
       this._mode = Mode.DETAILS;
       openPopup(document.body, this._filmDetailsComponent);
+      document.body.classList.add(`hide-overflow`);
       document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
@@ -57,6 +59,7 @@ export default class MovieController {
       evt.preventDefault();
       const newFilm = FilmsModel.clone(film);
       newFilm.alreadyWatched = !newFilm.alreadyWatched;
+      newFilm.watchingDate = newFilm.alreadyWatched ? moment().format() : null;
 
       this._onDataChange(this, film, newFilm);
     });
@@ -88,6 +91,7 @@ export default class MovieController {
     this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
       const newFilm = FilmsModel.clone(film);
       newFilm.alreadyWatched = !newFilm.alreadyWatched;
+      newFilm.watchingDate = newFilm.alreadyWatched ? moment().format() : null;
 
       this._onDataChange(this, film, newFilm);
       this._mode = Mode.DETAILS;
