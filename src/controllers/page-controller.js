@@ -13,9 +13,9 @@ const Cards = {
   EXTRA: 2,
 };
 
-const renderFilmCards = (filmsListElement, films, onDataChange, onViewChange) => {
+const renderFilmCards = (filmsListElement, films, onDataChange, onViewChange, api, filmsModel) => {
   return films.map((film) => {
-    const movieController = new MovieController(filmsListElement, onDataChange, onViewChange);
+    const movieController = new MovieController(filmsListElement, onDataChange, onViewChange, api, filmsModel);
 
     movieController.render(film);
 
@@ -85,7 +85,7 @@ export default class PageController {
     films = this._filmsModel.getFilms();
 
     const sortedFilmCards = getSortedFilmCards(films, this._sortComponent.getSortType(), prevFilmsCount, this._shownFilmsCount);
-    const newFilmCards = renderFilmCards(this._filmsListElement, sortedFilmCards, this._onDataChange, this._onViewChange);
+    const newFilmCards = renderFilmCards(this._filmsListElement, sortedFilmCards, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
 
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
 
@@ -131,7 +131,7 @@ export default class PageController {
   }
 
   _renderFilms(films) {
-    const newFilmCards = renderFilmCards(this._filmsListElement, films, this._onDataChange, this._onViewChange);
+    const newFilmCards = renderFilmCards(this._filmsListElement, films, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
     this._shownFilmsCount = this._showedMovieControllers.length;
   }
@@ -151,6 +151,9 @@ export default class PageController {
         movieController.render(filmModel);
         // this._updateFilms(this._shownFilmsCount);
       }
+    })
+    .catch(() => {
+      movieController.shake();
     });
   }
 
@@ -177,7 +180,7 @@ export default class PageController {
     render(container, this._topRatedFilmsComponent, RenderPosition.BEFOREEND);
     const topRatedFilmsContainer = this._topRatedFilmsComponent.getElement().querySelector(`.films-list__container`);
     const topRatedFilms = getSortedFilmCards(films, SortType.RATING, 0, Cards.EXTRA);
-    renderFilmCards(topRatedFilmsContainer, topRatedFilms, this._onDataChange, this._onViewChange);
+    renderFilmCards(topRatedFilmsContainer, topRatedFilms, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
   }
 
   _renderMostCommentedFilms(films) {
@@ -185,6 +188,6 @@ export default class PageController {
     render(container, this._mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
     const mostCommentedFilmsContainer = this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
     const mostCommentedFilms = getSortedFilmCards(films, SortType.COMMENTS, 0, Cards.EXTRA);
-    renderFilmCards(mostCommentedFilmsContainer, mostCommentedFilms, this._onDataChange, this._onViewChange);
+    renderFilmCards(mostCommentedFilmsContainer, mostCommentedFilms, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
   }
 }
