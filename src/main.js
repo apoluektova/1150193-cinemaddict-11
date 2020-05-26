@@ -11,7 +11,7 @@ import SortingComponent from "./components/sorting.js";
 import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
 
-const AUTHORIZATION = `Basic asClkjaldhfsoklnv`;
+const AUTHORIZATION = `Basic asClkjaldhfsoklpn`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);

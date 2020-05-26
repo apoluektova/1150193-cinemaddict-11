@@ -23,6 +23,8 @@ const createFilmGenresMarkup = (genres) => {
 export const createFilmDetailsTemplate = (film) => {
   const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genre, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
   const filmDate = formatDate(releaseDate);
+  const filmWriters = writers.join(`, `);
+  const filmActors = actors.join(`, `);
   const genresMarkup = createFilmGenresMarkup(genre);
   const filmDuration = getFilmDuration(duration);
   const ageRatingString = `${ageRating}+`;
@@ -66,11 +68,11 @@ export const createFilmDetailsTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers}</td>
+                  <td class="film-details__cell">${filmWriters}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors}</td>
+                  <td class="film-details__cell">${filmActors}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>

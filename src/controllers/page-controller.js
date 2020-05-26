@@ -149,7 +149,6 @@ export default class PageController {
 
       if (isSuccess) {
         movieController.render(filmModel);
-        // this._updateFilms(this._shownFilmsCount);
       }
     })
     .catch(() => {
@@ -173,6 +172,7 @@ export default class PageController {
 
   _onFilterChange() {
     this._updateFilms(Cards.SHOWN);
+    this._sortComponent.reset();
   }
 
   _renderTopRatedFilms(films) {

@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 export const SortType = {
   DATE: `date`,
@@ -18,11 +18,12 @@ const createSortingTemplate = () => {
   );
 };
 
-export default class Sorting extends AbstractComponent {
+export default class Sorting extends AbstractSmartComponent {
   constructor() {
     super();
 
     this._currentSortType = SortType.DEFAULT;
+    this._sortTypeChangeHandler = null;
   }
 
   getTemplate() {
@@ -31,6 +32,19 @@ export default class Sorting extends AbstractComponent {
 
   getSortType() {
     return this._currentSortType;
+  }
+
+  recoveryListeners() {
+    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  reset() {
+    this._currentSortType = SortType.DEFAULT;
+    this.rerender();
   }
 
   setSortTypeChangeHandler(handler) {
@@ -58,5 +72,8 @@ export default class Sorting extends AbstractComponent {
 
       handler(this._currentSortType);
     });
+
+    this._sortTypeChangeHandler = handler;
   }
 }
+
