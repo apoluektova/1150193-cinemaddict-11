@@ -23,11 +23,7 @@ export default class Sorting extends AbstractSmartComponent {
     super();
 
     this._currentSortType = SortType.DEFAULT;
-    this._sortTypeChangeHandler = null;
-  }
-
-  getTemplate() {
-    return createSortingTemplate();
+    this._onSortTypeChange = null;
   }
 
   getSortType() {
@@ -35,11 +31,15 @@ export default class Sorting extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+    this.setOnSortTypeChange(this._onSortTypeChange);
   }
 
   rerender() {
     super.rerender();
+  }
+
+  getTemplate() {
+    return createSortingTemplate();
   }
 
   reset() {
@@ -47,7 +47,7 @@ export default class Sorting extends AbstractSmartComponent {
     this.rerender();
   }
 
-  setSortTypeChangeHandler(handler) {
+  setOnSortTypeChange(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -73,7 +73,7 @@ export default class Sorting extends AbstractSmartComponent {
       handler(this._currentSortType);
     });
 
-    this._sortTypeChangeHandler = handler;
+    this._onSortTypeChange = handler;
   }
 }
 

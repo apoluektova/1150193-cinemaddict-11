@@ -25,10 +25,6 @@ const openPopup = (container, component) => {
   container.appendChild(component.getElement());
 };
 
-const closePopup = (container, component) => {
-  container.removeChild(component.getElement());
-};
-
 const remove = (component) => {
   component.getElement().remove();
 };
@@ -45,4 +41,4 @@ const replace = (newComponent, oldComponent) => {
   }
 };
 
-export {RenderPosition, createElement, render, openPopup, closePopup, remove, replace};
+export {RenderPosition, createElement, render, openPopup, remove, replace};

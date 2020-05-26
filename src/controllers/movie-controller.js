@@ -1,8 +1,8 @@
 import FilmCardComponent from "../components/film-card.js";
 import FilmDetailsComponent from "../components/film-details.js";
 import FilmsModel from './../models/film.js';
-import {render, openPopup, remove, replace, RenderPosition} from "../utils/render.js";
 import moment from "moment";
+import {render, openPopup, remove, replace, RenderPosition} from "../utils/render.js";
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
 const MILLISECONDS_COUNT = 1000;
@@ -86,7 +86,6 @@ export default class MovieController {
       remove(this._filmDetailsComponent);
       this._filmDetailsComponent.clearCommentData();
       document.body.classList.remove(`hide-overflow`);
-      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setOnWatchedButtonClick(() => {
@@ -95,7 +94,6 @@ export default class MovieController {
       newFilm.watchingDate = newFilm.alreadyWatched ? moment().format() : null;
 
       this._onDataChange(this, film, newFilm);
-      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setOnWatchlistButtonClick(() => {
@@ -103,7 +101,6 @@ export default class MovieController {
       newFilm.watchlist = !newFilm.watchlist;
 
       this._onDataChange(this, film, newFilm);
-      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setOnFavoritesButtonClick(() => {
@@ -111,7 +108,6 @@ export default class MovieController {
       newFilm.isFavorite = !newFilm.isFavorite;
 
       this._onDataChange(this, film, newFilm);
-      this._mode = Mode.DETAILS;
     });
 
     this._filmDetailsComponent.setOnEmojiClick((evt) => {

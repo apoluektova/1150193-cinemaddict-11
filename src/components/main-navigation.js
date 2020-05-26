@@ -2,6 +2,7 @@ import AbstractComponent from "./abstract-component.js";
 import FilterComponent from "./filter.js";
 import {FilterType} from "../const.js";
 
+const LINK_TAG_NAME = `A`;
 
 const createNavigationTemplate = (filters) => {
   const filterSection = new FilterComponent(filters).getTemplate();
@@ -25,13 +26,13 @@ export default class MainNavigation extends AbstractComponent {
     return createNavigationTemplate(this._filters);
   }
 
-  setFilterChangeHandler(handler) {
+  setOnFilterChange(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
       const siblingsElements = Array.from(evt.target.parentNode.children);
 
-      if (evt.target.tagName !== `A`) {
+      if (evt.target.tagName !== LINK_TAG_NAME) {
         return;
       }
 
@@ -41,8 +42,8 @@ export default class MainNavigation extends AbstractComponent {
         return;
       }
 
-      siblingsElements.forEach((el) => {
-        el.classList.remove(`main-navigation__item--active`);
+      siblingsElements.forEach((element) => {
+        element.classList.remove(`main-navigation__item--active`);
       });
 
       evt.target.classList.add(`main-navigation__item--active`);

@@ -16,9 +16,9 @@ const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
-const siteHeader = document.querySelector(`.header`);
+const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
-const siteFooter = document.querySelector(`.footer__statistics`);
+const siteFooterElement = document.querySelector(`.footer__statistics`);
 const loadingComponent = new LoadingComponent();
 const filterController = new FilterController(siteMainElement, filmsModel);
 const sortComponent = new SortingComponent();
@@ -52,8 +52,8 @@ api.getFilms()
      filmsModel.setFilms(films);
      remove(sortComponent);
      filmsController.render();
-     render(siteHeader, new ProfileRatingComponent(films), RenderPosition.BEFOREEND);
-     render(siteFooter, new FooterStatisticsComponent(films), RenderPosition.BEFOREEND);
+     render(siteHeaderElement, new ProfileRatingComponent(films), RenderPosition.BEFOREEND);
+     render(siteFooterElement, new FooterStatisticsComponent(films), RenderPosition.BEFOREEND);
    })
    .catch(() => {
      remove(loadingComponent);
