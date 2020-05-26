@@ -1,6 +1,7 @@
-import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 import AbstractComponent from "./abstract-component.js";
 import {getFilmDuration, getShortDescription, formatDate} from "../utils/common.js";
+import {MAX_DESCRIPTION_LENGTH} from "../const.js";
+
 
 const createFilmCardTemplate = (film) => {
   const {title, rating, releaseDate, duration, genre, poster, description, comments, watchlist, alreadyWatched, isFavorite} = film;
@@ -45,29 +46,29 @@ export default class FilmCard extends AbstractComponent {
     return createFilmCardTemplate(this._film);
   }
 
-  setPosterClickHandler(handler) {
+  setOnPosterClick(handler) {
     this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, handler);
   }
 
-  setTitleClickHandler(handler) {
+  setOnTitleClick(handler) {
     this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, handler);
   }
 
-  setCommentsClickHandler(handler) {
+  setOnCommentsClick(handler) {
     this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, handler);
   }
 
-  setWatchlistButtonClickHandler(handler) {
+  setOnWatchlistButtonClick(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
     .addEventListener(`click`, handler);
   }
 
-  setWatchedButtonClickHandler(handler) {
+  setOnWatchedButtonClick(handler) {
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
     .addEventListener(`click`, handler);
   }
 
-  setFavoritesButtonClickHandler(handler) {
+  setOnFavoritesButtonClick(handler) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, handler);
   }

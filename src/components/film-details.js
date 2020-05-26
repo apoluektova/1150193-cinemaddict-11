@@ -1,8 +1,8 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentsComponent from "./comments.js";
 import moment from "moment";
-import {getFilmDuration, formatDate} from "../utils/common.js";
 import {encode} from "he";
+import {getFilmDuration, formatDate} from "../utils/common.js";
 
 const Emoji = {
   URL_PREFIX_COUNT: 35,
@@ -122,44 +122,16 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._film = film;
   }
 
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
-  }
-
-  setCloseButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
-  }
-
-  setWatchlistButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--watchlist`)
-    .addEventListener(`click`, handler);
-  }
-
-  setWatchedButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--watched`)
-    .addEventListener(`click`, handler);
-  }
-
-  setFavoritesButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, handler);
-  }
-
-  setEmojiClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-list`)
-    .addEventListener(`change`, handler);
-  }
-
-  setDeleteButtonClickHandler(handler) {
-    const deleteButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
-    Array.from(deleteButtons).forEach((button) => {
-      button.addEventListener(`click`, handler);
-    });
-  }
-
-  setAddCommentHandler(handler) {
-    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
-    commentField.addEventListener(`keydown`, handler);
   }
 
   getCommentData() {
@@ -187,12 +159,40 @@ export default class FilmDetails extends AbstractSmartComponent {
     }
   }
 
-  recoveryListeners() {
-    this._subscribeOnEvents();
+  setOnCloseButtonClick(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 
-  rerender() {
-    super.rerender();
+  setOnWatchlistButtonClick(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+    .addEventListener(`click`, handler);
+  }
+
+  setOnWatchedButtonClick(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+    .addEventListener(`click`, handler);
+  }
+
+  setOnFavoritesButtonClick(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  setOnEmojiClick(handler) {
+    this.getElement().querySelector(`.film-details__emoji-list`)
+    .addEventListener(`change`, handler);
+  }
+
+  setOnDeleteButtonClick(handler) {
+    const deleteButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    Array.from(deleteButtons).forEach((button) => {
+      button.addEventListener(`click`, handler);
+    });
+  }
+
+  setOnCommentAdd(handler) {
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    commentField.addEventListener(`keydown`, handler);
   }
 }
 

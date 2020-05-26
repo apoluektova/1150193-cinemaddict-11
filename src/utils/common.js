@@ -32,6 +32,7 @@ const getRandomArray = (array, number) => {
   return randomArray;
 };
 
+// Да
 const getShortDescription = (text, maxLength) => {
   let shortDescription = text;
   if (text.length > maxLength) {
@@ -41,6 +42,7 @@ const getShortDescription = (text, maxLength) => {
   return shortDescription;
 };
 
+// Да
 const getFilmDuration = (duration) => {
   let hours = Math.floor(duration / 60);
   let minutes = duration % 60;
@@ -48,6 +50,7 @@ const getFilmDuration = (duration) => {
   return filmDuration;
 };
 
+// Да
 const formatDate = (date) => {
   return moment(date).format(`DD MMMM YYYY`);
 };

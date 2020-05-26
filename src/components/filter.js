@@ -12,7 +12,7 @@ const createFilterMarkup = (filter, isActive) => {
 };
 
 const createFiltersTemplate = (filters) => {
-  const filtersMarkup = filters.map((it) => createFilterMarkup(it, it.checked)).join(`\n`);
+  const filtersMarkup = filters.map((filter) => createFilterMarkup(filter, filter.checked)).join(`\n`);
 
   return (
     ` <div class="main-navigation__items">

@@ -3,7 +3,6 @@ import {formatCommentDate} from "../utils/common.js";
 
 const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
-
 const createEmojiMarkup = (emojiList) => {
   return emojiList
   .map((emoji) => {
@@ -38,7 +37,6 @@ const createCommentsListMarkup = (commentItem) => {
   );
 };
 
-
 const createCommentsSectionTemplate = (comments) => {
   const commentsList = comments.map((comment) => {
     return createCommentsListMarkup(comment);
@@ -69,7 +67,7 @@ const createCommentsSectionTemplate = (comments) => {
   );
 };
 
-export default class Comment extends AbstractComponent {
+export default class Comments extends AbstractComponent {
   constructor(comments) {
     super();
 

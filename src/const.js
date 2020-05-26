@@ -1,3 +1,4 @@
+// Да
 const MAX_DESCRIPTION_LENGTH = 139;
 
 const FILM_TITLES = [
