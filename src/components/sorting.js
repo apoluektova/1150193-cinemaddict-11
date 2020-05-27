@@ -1,6 +1,6 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
-export const SortType = {
+const SortType = {
   DATE: `date`,
   RATING: `rating`,
   DEFAULT: `default`,
@@ -23,15 +23,15 @@ export default class Sorting extends AbstractSmartComponent {
     super();
 
     this._currentSortType = SortType.DEFAULT;
-    this._onSortTypeChange = null;
+    this._onTypeChange = null;
   }
 
-  getSortType() {
+  getType() {
     return this._currentSortType;
   }
 
   recoveryListeners() {
-    this.setOnSortTypeChange(this._onSortTypeChange);
+    this.setOnTypeChange(this._onTypeChange);
   }
 
   rerender() {
@@ -47,7 +47,7 @@ export default class Sorting extends AbstractSmartComponent {
     this.rerender();
   }
 
-  setOnSortTypeChange(handler) {
+  setOnTypeChange(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -73,7 +73,8 @@ export default class Sorting extends AbstractSmartComponent {
       handler(this._currentSortType);
     });
 
-    this._onSortTypeChange = handler;
+    this._onTypeChange = handler;
   }
 }
 
+export {SortType};

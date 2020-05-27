@@ -1,16 +1,16 @@
-const RenderPosition = {
+export const RenderPosition = {
   AFTEREND: `afterend`,
   BEFOREEND: `beforeend`,
 };
 
-const createElement = (template) => {
+export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
   return newElement.firstChild;
 };
 
-const render = (container, component, place) => {
+export const render = (container, component, place) => {
   switch (place) {
     case RenderPosition.AFTEREND:
       container.after(component.getElement());
@@ -21,15 +21,15 @@ const render = (container, component, place) => {
   }
 };
 
-const openPopup = (container, component) => {
+export const openPopup = (container, component) => {
   container.appendChild(component.getElement());
 };
 
-const remove = (component) => {
+export const remove = (component) => {
   component.getElement().remove();
 };
 
-const replace = (newComponent, oldComponent) => {
+export const replace = (newComponent, oldComponent) => {
   const parentElement = oldComponent.getElement().parentElement;
   const newElement = newComponent.getElement();
   const oldElement = oldComponent.getElement();
@@ -41,4 +41,3 @@ const replace = (newComponent, oldComponent) => {
   }
 };
 
-export {RenderPosition, createElement, render, openPopup, remove, replace};

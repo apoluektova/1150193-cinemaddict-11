@@ -30,7 +30,7 @@ const API = class {
     return this._load({url: `movies`})
        .then((response) => response.json())
        .then((films) => Promise.all(films.map((film) => this._getComments(film))))
-       .then(Film.parseFilms);
+       .then(Film.parseMultiple);
   }
 
   updateFilm(id, data) {
@@ -42,7 +42,7 @@ const API = class {
     })
       .then((response) => response.json())
       .then((film) => this._getComments(film))
-      .then(Film.parseFilm);
+      .then(Film.parseItem);
   }
 
   createComment(id, comment) {

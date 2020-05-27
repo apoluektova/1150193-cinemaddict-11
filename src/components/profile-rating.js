@@ -7,7 +7,7 @@ const Rank = {
   MOVIE_BUFF: `Movie Buff`,
 };
 
-export const getUserRank = (films) => {
+const getUserRank = (films) => {
   const watchedFilms = films.filter((film) => film.alreadyWatched).length;
   let rank = ``;
 
@@ -40,3 +40,5 @@ export default class ProfileRating extends AbstractComponent {
     );
   }
 }
+
+export {getUserRank};

@@ -20,7 +20,7 @@ const createFilmGenresMarkup = (genres) => {
   .join(`\n`);
 };
 
-export const createFilmDetailsTemplate = (film) => {
+const createFilmDetailsTemplate = (film) => {
   const {poster, ageRating, title, alternativeTitle, rating, director, writers, actors, releaseDate, duration, genre, releaseCountry, description, comments, watchlist, alreadyWatched, isFavorite} = film;
   const filmDate = formatDate(releaseDate);
   const filmWriters = writers.join(`, `);

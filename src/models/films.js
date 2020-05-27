@@ -10,15 +10,15 @@ export default class Films {
     this._filterChangeHandlers = [];
   }
 
-  getFilms() {
+  getItems() {
     return getFilmsByFilter(this._films, this._activeFilterType);
   }
 
-  getFilmsAll() {
+  getAllItems() {
     return this._films;
   }
 
-  setFilms(films) {
+  setItems(films) {
     this._films = Array.from(films);
     this._callHandlers(this._dataChangeHandlers);
   }
@@ -28,7 +28,7 @@ export default class Films {
     this._callHandlers(this._filterChangeHandlers);
   }
 
-  updateFilm(id, film) {
+  update(id, film) {
     const index = this._films.findIndex((filmItem) => filmItem.id === id);
 
     if (index === -1) {

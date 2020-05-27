@@ -54,12 +54,12 @@ export default class Film {
     };
   }
 
-  static parseFilm(data) {
+  static parseItem(data) {
     return new Film(data);
   }
 
-  static parseFilms(data) {
-    return data.map(Film.parseFilm);
+  static parseMultiple(data) {
+    return data.map(Film.parseItem);
   }
 
   static clone(data) {

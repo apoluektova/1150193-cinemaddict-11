@@ -6,7 +6,6 @@ import FooterStatisticsComponent from "./components/footer-statistics.js";
 import LoadingComponent from "./components/loading.js";
 import NoFilmsComponent from "./components/no-films.js";
 import PageController from "./controllers/page-controller.js";
-import ProfileRatingComponent from "./components/profile-rating.js";
 import SortingComponent from "./components/sorting.js";
 import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
@@ -16,7 +15,6 @@ const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
 const filmsModel = new FilmsModel();
-const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer__statistics`);
 const loadingComponent = new LoadingComponent();
@@ -24,7 +22,7 @@ const filterController = new FilterController(siteMainElement, filmsModel);
 const sortComponent = new SortingComponent();
 const filmsContainer = new FilmsComponent();
 const filmsController = new PageController(filmsContainer, filmsModel, api);
-const statisticsComponent = new StatisticsComponent(filmsModel.getFilmsAll());
+const statisticsComponent = new StatisticsComponent(filmsModel.getAllItems());
 
 filterController.render();
 
@@ -39,7 +37,7 @@ statisticsComponent.hide();
 filterController.setOnMenuItemClick((menuItem) => {
   if (menuItem === `stats`) {
     filmsController.hide();
-    statisticsComponent.show(filmsModel.getFilmsAll());
+    statisticsComponent.show(filmsModel.getAllItems());
   } else {
     filmsController.show();
     statisticsComponent.hide();
@@ -49,10 +47,9 @@ filterController.setOnMenuItemClick((menuItem) => {
 api.getFilms()
    .then((films) => {
      remove(loadingComponent);
-     filmsModel.setFilms(films);
+     filmsModel.setItems(films);
      remove(sortComponent);
      filmsController.render();
-     render(siteHeaderElement, new ProfileRatingComponent(films), RenderPosition.BEFOREEND);
      render(siteFooterElement, new FooterStatisticsComponent(films), RenderPosition.BEFOREEND);
    })
    .catch(() => {

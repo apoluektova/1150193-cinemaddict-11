@@ -16,9 +16,7 @@ const Filter = {
 };
 
 const getFilterIdByName = (filterName) => {
-  let filterId = ``;
-  filterId = (filterName === `All time`) ? `all-time` : filterName.toLowerCase();
-  return filterId;
+  return (filterName === `All time`) ? `all-time` : filterName.toLowerCase();
 };
 
 const createFilterMarkup = (filter) => {
@@ -72,11 +70,12 @@ const getFilmsAmountByGenre = (films) => {
 const createStatisticsTemplate = (films, filter) => {
   const watchedFilms = getWatchedFilms(films);
   const filterMarkup = createFilterMarkup(filter);
-  const watchedFilmsAmount = getFilmsByFilter(watchedFilms, filter).length;
+  const watchedFilmsByFilter = getFilmsByFilter(films, filter);
+  const watchedFilmsByFilterAmount = watchedFilmsByFilter.length;
   const userRank = getUserRank(films);
-  const totalFilmDuration = getTotalFilmDuration(getFilmsByFilter(watchedFilms, filter));
-  const filmsByGenres = Array.from(getFilmsAmountByGenre(getFilmsByFilter(watchedFilms, filter)));
-  const topGenre = films.length ? filmsByGenres[0].genre : ``;
+  const totalFilmDuration = getTotalFilmDuration(getFilmsByFilter(films, filter));
+  const topGenre = ``;
+
 
   return (
     `<section class="statistic">
@@ -94,7 +93,7 @@ const createStatisticsTemplate = (films, filter) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">${watchedFilmsAmount} <span class="statistic__item-description">${watchedFilms.length === 1 ? `movie` : `movies`}</span></p>
+        <p class="statistic__item-text">${watchedFilmsByFilterAmount} <span class="statistic__item-description">${watchedFilms.length === 1 ? `movie` : `movies`}</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
@@ -179,21 +178,28 @@ const renderChart = (genresCtx, films) => {
 };
 
 const getFilmsByFilter = (films, filter) => {
+  let filteredFilms = [];
   const watchedFilms = getWatchedFilms(films);
+
   switch (filter) {
-    case Filter.ALL_TIME:
-      return watchedFilms;
     case Filter.TODAY:
-      return watchedFilms.filter((film) => moment(film.watchingDate).isSame(moment(), `day`));
+      filteredFilms = watchedFilms.filter((film) => moment(film.watchingDate).isSame(moment(), `day`));
+      break;
     case Filter.WEEK:
-      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(7, `days`)));
+      filteredFilms = watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(7, `days`)));
+      break;
     case Filter.MONTH:
-      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `months`)));
+      filteredFilms = watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `months`)));
+      break;
     case Filter.YEAR:
-      return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `years`)));
+      filteredFilms = watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `years`)));
+      break;
+    case Filter.ALL_TIME:
+      filteredFilms = watchedFilms;
+      break;
   }
 
-  return films;
+  return filteredFilms;
 };
 
 export default class Statistics extends AbstractSmartComponent {

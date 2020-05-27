@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const getShortDescription = (text, maxLength) => {
+export const getShortDescription = (text, maxLength) => {
   let shortDescription = text;
   if (text.length > maxLength) {
     shortDescription = text.slice(0, maxLength);
@@ -9,23 +9,21 @@ const getShortDescription = (text, maxLength) => {
   return shortDescription;
 };
 
-const getFilmDuration = (duration) => {
+export const getFilmDuration = (duration) => {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
   const filmDuration = `${hours}h ${minutes}m`;
   return filmDuration;
 };
 
-const formatDate = (date) => {
+export const formatDate = (date) => {
   return moment(date).format(`DD MMMM YYYY`);
 };
 
-const formatCommentDate = (date) => {
+export const formatCommentDate = (date) => {
   return moment(date).fromNow();
 };
 
-const getDateFromString = (date) => {
+export const getDateFromString = (date) => {
   return moment(date).valueOf();
 };
-
-export {getShortDescription, getFilmDuration, formatDate, formatCommentDate, getDateFromString};
