@@ -15,9 +15,8 @@ const Status = {
 const checkStatus = (response) => {
   if (response.status >= Status.SUCCESS && response.status < Status.REDIRECTION) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 const API = class {
