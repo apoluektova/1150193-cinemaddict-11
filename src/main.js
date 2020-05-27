@@ -10,7 +10,7 @@ import SortingComponent from "./components/sorting.js";
 import StatisticsComponent from "./components/statistics.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
 
-const AUTHORIZATION = `Basic asClkjaldhfsoklpn`;
+const AUTHORIZATION = `Basic asClkjaldhfsoklnQ`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
@@ -22,7 +22,7 @@ const filterController = new FilterController(siteMainElement, filmsModel);
 const sortComponent = new SortingComponent();
 const filmsContainer = new FilmsComponent();
 const filmsController = new PageController(filmsContainer, filmsModel, api);
-const statisticsComponent = new StatisticsComponent(filmsModel.getAllItems());
+const statisticsComponent = new StatisticsComponent(filmsModel.getFilmsAll());
 
 filterController.render();
 
@@ -37,7 +37,7 @@ statisticsComponent.hide();
 filterController.setOnMenuItemClick((menuItem) => {
   if (menuItem === `stats`) {
     filmsController.hide();
-    statisticsComponent.show(filmsModel.getAllItems());
+    statisticsComponent.show(filmsModel.getFilmsAll());
   } else {
     filmsController.show();
     statisticsComponent.hide();
@@ -47,7 +47,7 @@ filterController.setOnMenuItemClick((menuItem) => {
 api.getFilms()
    .then((films) => {
      remove(loadingComponent);
-     filmsModel.setItems(films);
+     filmsModel.setFilms(films);
      remove(sortComponent);
      filmsController.render();
      render(siteFooterElement, new FooterStatisticsComponent(films), RenderPosition.BEFOREEND);

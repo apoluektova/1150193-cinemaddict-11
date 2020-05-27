@@ -37,7 +37,7 @@ export default class MovieController {
       this._mode = Mode.DETAILS;
       openPopup(document.body, this._filmDetailsComponent);
       document.body.classList.add(`hide-overflow`);
-      document.addEventListener(`keydown`, this._onEscKeyDown);
+      this._setOnEscKeyDown(this._onEscKeyDown);
     };
 
     this._filmCardComponent.setOnPosterClick(() => {
@@ -210,6 +210,10 @@ export default class MovieController {
   _addCommentFieldBorder() {
     this._filmDetailsComponent.getElement().querySelector(`.film-details__comment-input`).style.border = `2px solid red`;
     this._filmDetailsComponent.getElement().querySelector(`.film-details__comment-input`).removeAttribute(`disabled`);
+  }
+
+  _setOnEscKeyDown(handler) {
+    document.addEventListener(`keydown`, handler);
   }
 
   _onEscKeyDown(evt) {

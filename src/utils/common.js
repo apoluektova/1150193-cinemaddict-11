@@ -1,12 +1,7 @@
 import moment from "moment";
 
 export const getShortDescription = (text, maxLength) => {
-  let shortDescription = text;
-  if (text.length > maxLength) {
-    shortDescription = text.slice(0, maxLength);
-    shortDescription += `&#133`;
-  }
-  return shortDescription;
+  return (text.length > maxLength) ? `${text.slice(0, maxLength)}...` : text;
 };
 
 export const getFilmDuration = (duration) => {
