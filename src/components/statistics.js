@@ -74,7 +74,8 @@ const createStatisticsTemplate = (films, filter) => {
   const watchedFilmsByFilterAmount = watchedFilmsByFilter.length;
   const userRank = getUserRank(films);
   const totalFilmDuration = getTotalFilmDuration(getFilmsByFilter(films, filter));
-  const topGenre = ``;
+  const filmsByGenres = getFilmsAmountByGenre(watchedFilmsByFilter);
+  const topGenre = films.length === 0 ? `` : filmsByGenres[0].genre;
 
 
   return (
