@@ -37,7 +37,7 @@ const getWatchedFilms = (films) => {
 };
 
 const getTotalFilmDuration = (films) => {
-  let totalDuration = {
+  const totalDuration = {
     hours: 0,
     minutes: 0,
   };

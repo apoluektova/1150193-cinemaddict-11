@@ -10,8 +10,8 @@ const getShortDescription = (text, maxLength) => {
 };
 
 const getFilmDuration = (duration) => {
-  let hours = Math.floor(duration / 60);
-  let minutes = duration % 60;
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60;
   const filmDuration = `${hours}h ${minutes}m`;
   return filmDuration;
 };
