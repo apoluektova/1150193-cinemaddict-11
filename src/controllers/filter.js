@@ -1,7 +1,7 @@
 import MainNavigationComponent from "../components/main-navigation.js";
 import {FilterType} from "../const.js";
-import {render, replace, RenderPosition} from "../utils/render.js";
 import {getFilmsByFilter} from "../utils/filter.js";
+import {render, replace, RenderPosition} from "../utils/render.js";
 
 export default class FilterController {
   constructor(container, filmsModel) {
@@ -15,7 +15,7 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this.setOnMenuItemClick = this.setOnMenuItemClick.bind(this);
 
-    this._filmsModel.setDataChangeHandler(this._onDataChange);
+    this._filmsModel.setOnDataChange(this._onDataChange);
   }
 
   render() {
@@ -33,7 +33,7 @@ export default class FilterController {
     const oldComponent = this._mainNavigationComponent;
 
     this._mainNavigationComponent = new MainNavigationComponent(filters);
-    this._mainNavigationComponent.setFilterChangeHandler(this._onFilterChange);
+    this._mainNavigationComponent.setOnFilterChange(this._onFilterChange);
 
     if (this._onMenuItemClick) {
       this._mainNavigationComponent.setOnMenuItemClick(this._onMenuItemClick);
@@ -46,6 +46,12 @@ export default class FilterController {
     }
   }
 
+  setOnMenuItemClick(handler) {
+    this._mainNavigationComponent.setOnMenuItemClick(handler);
+
+    this._onMenuItemClick = handler;
+  }
+
   _onFilterChange(filterType) {
     this._filmsModel.setFilter(filterType);
     this._activeFilterType = filterType;
@@ -53,12 +59,6 @@ export default class FilterController {
 
   _onDataChange() {
     this.render();
-  }
-
-  setOnMenuItemClick(handler) {
-    this._mainNavigationComponent.setOnMenuItemClick(handler);
-
-    this._onMenuItemClick = handler;
   }
 }
 

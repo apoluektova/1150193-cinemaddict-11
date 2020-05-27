@@ -1,11 +1,19 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {getUserRank} from "./profile-rating.js";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
+import {getUserRank} from "./profile-rating.js";
 
-const filterNames = [`All time`, `Today`, `Week`, `Month`, `Year`];
+const FILTER_NAMES = [`All time`, `Today`, `Week`, `Month`, `Year`];
 const DEFAULT_FILTER = `all-time`;
+
+const Filter = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};
 
 const getFilterIdByName = (filterName) => {
   let filterId = ``;
@@ -14,7 +22,7 @@ const getFilterIdByName = (filterName) => {
 };
 
 const createFilterMarkup = (filter) => {
-  return filterNames
+  return FILTER_NAMES
   .map((name) => {
     return (
       `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${getFilterIdByName(name)}" value="${getFilterIdByName(name)}" ${getFilterIdByName(name) === filter ? `checked` : ``}>
@@ -41,9 +49,9 @@ const getTotalFilmDuration = (films) => {
 
 const getFilmGenres = (films) => {
   return films.reduce((filmGenres, film) => {
-    film.genre.forEach((it) => {
-      if (!filmGenres.includes(it)) {
-        filmGenres.push(it);
+    film.genre.forEach((genre) => {
+      if (!filmGenres.includes(genre)) {
+        filmGenres.push(genre);
       }
     });
     return filmGenres;
@@ -61,14 +69,13 @@ const getFilmsAmountByGenre = (films) => {
   }).sort((a, b) => b.count - a.count);
 };
 
-
 const createStatisticsTemplate = (films, filter) => {
   const watchedFilms = getWatchedFilms(films);
   const filterMarkup = createFilterMarkup(filter);
   const watchedFilmsAmount = getFilmsByFilter(watchedFilms, filter).length;
   const userRank = getUserRank(films);
   const totalFilmDuration = getTotalFilmDuration(getFilmsByFilter(watchedFilms, filter));
-  const filmsByGenres = getFilmsAmountByGenre(watchedFilms);
+  const filmsByGenres = Array.from(getFilmsAmountByGenre(getFilmsByFilter(watchedFilms, filter)));
   const topGenre = films.length ? filmsByGenres[0].genre : ``;
 
   return (
@@ -87,7 +94,7 @@ const createStatisticsTemplate = (films, filter) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">${watchedFilmsAmount} <span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${watchedFilmsAmount} <span class="statistic__item-description">${watchedFilms.length === 1 ? `movie` : `movies`}</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
@@ -117,9 +124,9 @@ const renderChart = (genresCtx, films) => {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: chartData.map((it) => it.genre),
+      labels: chartData.map((label) => label.genre),
       datasets: [{
-        data: chartData.map((it) => it.count),
+        data: chartData.map((bar) => bar.count),
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
         anchor: `start`,
@@ -174,15 +181,15 @@ const renderChart = (genresCtx, films) => {
 const getFilmsByFilter = (films, filter) => {
   const watchedFilms = getWatchedFilms(films);
   switch (filter) {
-    case `all-time`:
+    case Filter.ALL_TIME:
       return watchedFilms;
-    case `today`:
+    case Filter.TODAY:
       return watchedFilms.filter((film) => moment(film.watchingDate).isSame(moment(), `day`));
-    case `week`:
+    case Filter.WEEK:
       return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(7, `days`)));
-    case `month`:
+    case Filter.MONTH:
       return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `months`)));
-    case `year`:
+    case Filter.YEAR:
       return watchedFilms.filter((film) => moment(film.watchingDate).isAfter(moment().subtract(1, `years`)));
   }
 
@@ -200,6 +207,16 @@ export default class Statistics extends AbstractSmartComponent {
     this._onFilterChange();
   }
 
+  recoveryListeners() {
+    this._onFilterChange();
+  }
+
+  rerender() {
+    super.rerender();
+
+    this._renderChart();
+  }
+
   getTemplate() {
     return createStatisticsTemplate(this._films, this._filter);
   }
@@ -209,16 +226,6 @@ export default class Statistics extends AbstractSmartComponent {
 
     this._films = updatedFilms;
     this.rerender();
-  }
-
-  recoveryListeners() {
-    this._onFilterChange();
-  }
-
-  rerender() {
-    super.rerender();
-
-    this._renderChart();
   }
 
   _renderChart() {

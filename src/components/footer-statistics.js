@@ -2,9 +2,7 @@ import AbstractComponent from "./abstract-component.js";
 
 const createFooterStatisticsTemplate = (films) => {
   return (
-    `<section class="footer__statistics">
-      <p>${films.length} movies inside</p>
-    </section>`
+    `<p>${films.length} movies inside</p>`
   );
 };
 

@@ -3,7 +3,6 @@ import {formatCommentDate} from "../utils/common.js";
 
 const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
-
 const createEmojiMarkup = (emojiList) => {
   return emojiList
   .map((emoji) => {
@@ -20,13 +19,14 @@ const createEmojiMarkup = (emojiList) => {
 const createCommentsListMarkup = (commentItem) => {
   const {emotion, comment, author, date, id} = commentItem;
   const commentDate = formatCommentDate(date);
+  const commentMessage = comment[0].toUpperCase() + comment.substring(1);
   return (
     `<li class="film-details__comment", id=${id}>
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
         </span>
         <div>
-          <p class="film-details__comment-text">${comment}</p>
+          <p class="film-details__comment-text">${commentMessage}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
             <span class="film-details__comment-day">${commentDate}</span>
@@ -36,7 +36,6 @@ const createCommentsListMarkup = (commentItem) => {
       </li>`
   );
 };
-
 
 const createCommentsSectionTemplate = (comments) => {
   const commentsList = comments.map((comment) => {
@@ -68,7 +67,7 @@ const createCommentsSectionTemplate = (comments) => {
   );
 };
 
-export default class Comment extends AbstractComponent {
+export default class Comments extends AbstractComponent {
   constructor(comments) {
     super();
 

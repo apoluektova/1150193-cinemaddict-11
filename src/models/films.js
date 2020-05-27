@@ -1,5 +1,5 @@
-import {getFilmsByFilter} from "../utils/filter.js";
 import {FilterType} from "../const.js";
+import {getFilmsByFilter} from "../utils/filter.js";
 
 export default class Films {
   constructor() {
@@ -29,7 +29,7 @@ export default class Films {
   }
 
   updateFilm(id, film) {
-    const index = this._films.findIndex((it) => it.id === id);
+    const index = this._films.findIndex((filmItem) => filmItem.id === id);
 
     if (index === -1) {
       return false;
@@ -42,11 +42,11 @@ export default class Films {
     return true;
   }
 
-  setFilterChangeHandler(handler) {
+  setOnFilterChange(handler) {
     this._filterChangeHandlers.push(handler);
   }
 
-  setDataChangeHandler(handler) {
+  setOnDataChange(handler) {
     this._dataChangeHandlers.push(handler);
   }
 

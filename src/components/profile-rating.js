@@ -1,6 +1,12 @@
 import AbstractComponent from "./abstract-component.js";
 import {userRank} from "../const.js";
 
+const Rank = {
+  NOVICE: `Novice`,
+  FAN: `Fan`,
+  MOVIE_BUFF: `Movie Buff`,
+};
+
 export const getUserRank = (films) => {
   const watchedFilms = films.filter((film) => film.alreadyWatched).length;
   let rank = ``;
@@ -8,11 +14,11 @@ export const getUserRank = (films) => {
   if (watchedFilms === 0) {
     rank = ``;
   } else if (watchedFilms >= userRank.novice.minFilmsAmount && watchedFilms <= userRank.novice.maxFilmsAmount) {
-    rank = `Novice`;
+    rank = Rank.NOVICE;
   } else if (watchedFilms >= userRank.fan.minFilmsAmount && watchedFilms <= userRank.fan.maxFilmsAmount) {
-    rank = `Fan`;
+    rank = Rank.FAN;
   } else if (watchedFilms >= userRank.movieBuff.minFilmsAmount) {
-    rank = `Movie Buff`;
+    rank = Rank.MOVIE_BUFF;
   }
   return rank;
 };

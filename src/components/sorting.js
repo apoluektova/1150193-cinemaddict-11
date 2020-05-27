@@ -1,10 +1,12 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 export const SortType = {
   DATE: `date`,
   RATING: `rating`,
   DEFAULT: `default`,
 };
+
+const LINK_TAG_NAME = `A`;
 
 const createSortingTemplate = () => {
   return (
@@ -16,45 +18,62 @@ const createSortingTemplate = () => {
   );
 };
 
-export default class Sorting extends AbstractComponent {
+export default class Sorting extends AbstractSmartComponent {
   constructor() {
     super();
 
-    this._currenSortType = SortType.DEFAULT;
+    this._currentSortType = SortType.DEFAULT;
+    this._onSortTypeChange = null;
+  }
+
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  recoveryListeners() {
+    this.setOnSortTypeChange(this._onSortTypeChange);
+  }
+
+  rerender() {
+    super.rerender();
   }
 
   getTemplate() {
     return createSortingTemplate();
   }
 
-  getSortType() {
-    return this._currenSortType;
+  reset() {
+    this._currentSortType = SortType.DEFAULT;
+    this.rerender();
   }
 
-  setSortTypeChangeHandler(handler) {
+  setOnSortTypeChange(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
       const siblingsElements = Array.from(evt.target.parentNode.parentNode.children);
 
-      if (evt.target.tagName !== `A`) {
+      if (evt.target.tagName !== LINK_TAG_NAME) {
         return;
       }
 
       const sortType = evt.target.dataset.sortType;
 
-      if (this._currenSortType === sortType) {
+      if (this._currentSortType === sortType) {
         return;
       }
-      this._currenSortType = sortType;
+      this._currentSortType = sortType;
 
-      siblingsElements.forEach((el) => {
-        el.firstElementChild.classList.remove(`sort__button--active`);
+      siblingsElements.forEach((element) => {
+        element.firstElementChild.classList.remove(`sort__button--active`);
       });
 
       evt.target.classList.add(`sort__button--active`);
 
-      handler(this._currenSortType);
+      handler(this._currentSortType);
     });
+
+    this._onSortTypeChange = handler;
   }
 }
+
