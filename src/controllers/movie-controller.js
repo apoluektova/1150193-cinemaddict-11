@@ -27,6 +27,7 @@ export default class MovieController {
   }
 
   render(film) {
+    this._film = film;
     const oldFilmCardComponent = this._filmCardComponent;
     const oldFilmDetailsComponent = this._filmDetailsComponent;
 
@@ -83,9 +84,7 @@ export default class MovieController {
     });
 
     this._filmDetailsComponent.setOnCloseButtonClick(() => {
-      remove(this._filmDetailsComponent);
-      this._filmDetailsComponent.clearCommentData();
-      document.body.classList.remove(`hide-overflow`);
+      this._closePopup();
     });
 
     this._filmDetailsComponent.setOnWatchedButtonClick(() => {
@@ -216,14 +215,23 @@ export default class MovieController {
     document.addEventListener(`keydown`, handler);
   }
 
+  _closePopup() {
+    remove(this._filmDetailsComponent);
+    this._filmDetailsComponent.clearCommentData();
+    document.body.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+
+    this._mode = Mode.DEFAULT;
+
+    const newFilm = FilmModel.clone(this._film);
+    this._onDataChange(this, this._film, newFilm, this._mode);
+  }
+
   _onEscKeyDown(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      remove(this._filmDetailsComponent);
-      this._filmDetailsComponent.clearCommentData();
-      document.body.classList.remove(`hide-overflow`);
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      this._closePopup();
     }
   }
 }

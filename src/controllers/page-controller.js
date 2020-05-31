@@ -143,6 +143,7 @@ export default class PageController {
   }
 
   _updateFilms(count) {
+    this._shownFilmsCount = count;
     this._removeFilms();
     this._renderFilms(this._filmsModel.getFilms().slice(0, count));
     this._renderShowMoreButton();
@@ -164,10 +165,6 @@ export default class PageController {
         remove(this._profileRatingComponent);
         this._profileRatingComponent = new ProfileRatingComponent(this._filmsModel.getFilmsAll());
         render(this._siteHeaderElement, this._profileRatingComponent, RenderPosition.BEFOREEND);
-
-        // remove(this._mostCommentedFilmsComponent);
-        // this._mostCommentedFilmsComponent = new ExtraFilmsComponent(`Most Commented`);
-        // this._renderMostCommentedFilms(this._filmsModel.getFilmsAll());
       }
     })
     .catch(() => {
@@ -229,21 +226,4 @@ export default class PageController {
     this._renderTopRatedFilms();
     this._renderMostCommentedFilms();
   }
-
-
-  // _renderTopRatedFilms(films) {
-  //   const container = this._container.getElement();
-  //   render(container, this._topRatedFilmsComponent, RenderPosition.BEFOREEND);
-  //   const topRatedFilmsContainer = this._topRatedFilmsComponent.getElement().querySelector(`.films-list__container`);
-  //   const topRatedFilms = getSortedFilmCards(films, SortType.RATING, 0, Cards.EXTRA);
-  //   renderFilmCards(topRatedFilmsContainer, topRatedFilms, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
-  // }
-
-  // _renderMostCommentedFilms(films) {
-  //   const container = this._container.getElement();
-  //   render(container, this._mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
-  //   const mostCommentedFilmsContainer = this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
-  //   const mostCommentedFilms = getSortedFilmCards(films, SortType.COMMENTS, 0, Cards.EXTRA);
-  //   renderFilmCards(mostCommentedFilmsContainer, mostCommentedFilms, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
-  // }
 }
