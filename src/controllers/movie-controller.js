@@ -61,7 +61,7 @@ export default class MovieController {
       newFilm.alreadyWatched = !newFilm.alreadyWatched;
       newFilm.watchingDate = newFilm.alreadyWatched ? moment().format() : null;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmCardComponent.setOnWatchlistButtonClick((evt) => {
@@ -70,7 +70,7 @@ export default class MovieController {
       const newFilm = FilmModel.clone(film);
       newFilm.watchlist = !newFilm.watchlist;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmCardComponent.setOnFavoritesButtonClick((evt) => {
@@ -79,7 +79,7 @@ export default class MovieController {
       const newFilm = FilmModel.clone(film);
       newFilm.isFavorite = !newFilm.isFavorite;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmDetailsComponent.setOnCloseButtonClick(() => {
@@ -93,21 +93,21 @@ export default class MovieController {
       newFilm.alreadyWatched = !newFilm.alreadyWatched;
       newFilm.watchingDate = newFilm.alreadyWatched ? moment().format() : null;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmDetailsComponent.setOnWatchlistButtonClick(() => {
       const newFilm = FilmModel.clone(film);
       newFilm.watchlist = !newFilm.watchlist;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmDetailsComponent.setOnFavoritesButtonClick(() => {
       const newFilm = FilmModel.clone(film);
       newFilm.isFavorite = !newFilm.isFavorite;
 
-      this._onDataChange(this, film, newFilm);
+      this._onDataChange(this, film, newFilm, this._mode);
     });
 
     this._filmDetailsComponent.setOnEmojiClick((evt) => {
@@ -135,7 +135,7 @@ export default class MovieController {
         deleteButton.innerHTML = `Deleting...`;
         deleteButton.setAttribute(`disabled`, `true`);
 
-        this._onDataChange(this, film, newFilm);
+        this._onDataChange(this, film, newFilm, this._mode);
       })
       .catch(() => {
         this._shakeComment(currentComment);
@@ -161,7 +161,7 @@ export default class MovieController {
             element.setAttribute(`disabled`, `disabled`);
           });
 
-          this._onDataChange(this, film, newFilm);
+          this._onDataChange(this, film, newFilm, this._mode);
         })
         .catch(() => {
           this.shake();
@@ -227,3 +227,6 @@ export default class MovieController {
     }
   }
 }
+
+export {Mode};
+

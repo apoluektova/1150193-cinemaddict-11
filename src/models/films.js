@@ -1,6 +1,8 @@
 import {FilterType} from "../const.js";
 import {getFilmsByFilter} from "../utils/filter.js";
 
+const EXTRA_CARDS_AMOUNT = 2;
+
 export default class Films {
   constructor() {
     this._films = [];
@@ -16,6 +18,18 @@ export default class Films {
 
   getFilmsAll() {
     return this._films;
+  }
+
+  getTopRatedFilms() {
+    return [...this._films]
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, EXTRA_CARDS_AMOUNT);
+  }
+
+  getMostCommentedFilms() {
+    return [...this._films]
+      .sort((a, b) => b.comments.length - a.comments.length)
+      .slice(0, EXTRA_CARDS_AMOUNT);
   }
 
   setFilms(films) {
