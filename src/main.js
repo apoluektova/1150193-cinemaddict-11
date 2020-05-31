@@ -12,7 +12,7 @@ import StatisticsComponent from "./components/statistics.js";
 import Store from "./api/store.js";
 import {render, RenderPosition, remove} from "./utils/render.js";
 
-const AUTHORIZATION = `Basic asClkldhfsoklnQN`;
+const AUTHORIZATION = `Basic asClkldhfsoklnQNa`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 const STORE_PREFIX = `cinemaddict-localstorage`;
 const STORE_VER = `v1`;
@@ -61,7 +61,7 @@ apiWithProvider.getFilms()
    })
    .catch(() => {
      remove(loadingComponent);
-     render(siteMainElement, new NoFilmsComponent(), RenderPosition.BEFOREEND);
+     render(filmsContainer.getElement().querySelector(`.films-list`), new NoFilmsComponent(), RenderPosition.BEFOREEND);
    });
 
 window.addEventListener(`load`, () => {
