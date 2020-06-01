@@ -1,8 +1,8 @@
 const Cache = {
-  CACHE_PREFIX: `cinemaddict-cache`,
-  CACHE_VER: `v1`,
-  get CACHE_NAME() {
-    return `${this.CACHE_PREFIX}-${this.CACHE_VER}`;
+  PREFIX: `cinemaddict-cache`,
+  VER: `v1`,
+  get NAME() {
+    return `${this.PREFIX}-${this.VER}`;
   }
 };
 
