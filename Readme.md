@@ -3,6 +3,7 @@
 * Студент: [Анна Полуэктова](https://up.htmlacademy.ru/ecmascript/11/user/1150193).
 * Наставник: [Сергей Рубец](https://htmlacademy.ru/profile/amator).
 
+
 ---
 
 _Не удаляйте и не изменяйте папки и файлы:_
